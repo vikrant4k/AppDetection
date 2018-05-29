@@ -26,6 +26,7 @@ public class ScreenOnReciever extends BroadcastReceiver {
         final IntentFilter filter = new IntentFilter();
         filter.addAction(Intent.ACTION_SCREEN_OFF);
         filter.addAction(Intent.ACTION_SCREEN_ON);
+        filter.setPriority(100);
         return filter;
     }
 }

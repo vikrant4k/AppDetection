@@ -7,10 +7,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.rvalerio.fgchecker.AppChecker;
+
 public class AppDetectorService extends Service {
-
     private static  final String TAG_NAME="com.vik.appdetect";
-
+    private AppChecker appChecker;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle=intent.getExtras();
@@ -18,13 +19,20 @@ public class AppDetectorService extends Service {
         if(isScreenOn)
         {
             Log.d(TAG_NAME,"service started ");
+            appChecker=new AppChecker();
+            appChecker.whenAny(new AppChecker.Listener() {
+                @Override
+                public void onForeground(String process) {
+                Log.d(TAG_NAME,process);
+                }
+            }).timeout(2000).start(this);
         }
         else
         {
             Log.d(TAG_NAME,"service stopped");
             this.onDestroy();
         }
-        return Service.START_STICKY;
+        return Service.START_NOT_STICKY;
     }
 
     @Nullable
@@ -39,6 +47,7 @@ public class AppDetectorService extends Service {
 
     @Override
     public void onDestroy() {
+        this.appChecker.stop();
         Log.d(TAG_NAME,"service destroyed ");
         super.onDestroy();
     }

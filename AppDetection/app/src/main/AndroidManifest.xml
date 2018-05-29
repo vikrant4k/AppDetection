@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="vik.com.appdetection">
 
+    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,6 +20,7 @@
             </intent-filter>
         </activity>
         <service android:name=".background.service.AppDetectorService"></service>
+        <service android:name=".background.service.ReciverStartService"></service>
         <receiver android:name=".background.reciever.ScreenOnReciever" />
     </application>
 
