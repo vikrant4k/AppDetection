@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.util.Log;
 
 import vik.com.appdetection.background.service.AppDetectorService;
 
@@ -19,6 +20,7 @@ public class ScreenOnReciever extends BroadcastReceiver {
         }
         Intent i = new Intent(context, AppDetectorService.class);
         i.putExtra("screen_state", wasScreenOn);
+        Log.d("com.vik",""+wasScreenOn);
         context.startService(i);
     }
 

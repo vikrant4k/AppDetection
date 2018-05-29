@@ -36,6 +36,7 @@ public class ReciverStartService extends Service {
 
     @Override
     public void onDestroy() {
+        Log.d("com.vik","Reciver Detsroy called");
         super.onDestroy();
         unregisterReceiver(screenOnReciever);
     }

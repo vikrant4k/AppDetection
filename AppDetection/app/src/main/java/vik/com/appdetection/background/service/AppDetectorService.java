@@ -9,9 +9,13 @@ import android.util.Log;
 
 import com.rvalerio.fgchecker.AppChecker;
 
+import vik.com.appdetection.background.app.service.AppChangeService;
+
 public class AppDetectorService extends Service {
     private static  final String TAG_NAME="com.vik.appdetect";
     private AppChecker appChecker;
+    private AppChangeService appChangeService;
+    private boolean isCheckerOn=false;
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle=intent.getExtras();
@@ -20,10 +24,13 @@ public class AppDetectorService extends Service {
         {
             Log.d(TAG_NAME,"service started ");
             appChecker=new AppChecker();
+            appChangeService=new AppChangeService();
+            isCheckerOn=true;
             appChecker.whenAny(new AppChecker.Listener() {
                 @Override
                 public void onForeground(String process) {
-                Log.d(TAG_NAME,process);
+                //Log.d(TAG_NAME,process);
+                appChangeService.findAppByPackage(process,getApplicationContext().getPackageManager());
                 }
             }).timeout(2000).start(this);
         }
@@ -32,7 +39,7 @@ public class AppDetectorService extends Service {
             Log.d(TAG_NAME,"service stopped");
             this.onDestroy();
         }
-        return Service.START_NOT_STICKY;
+        return Service.START_STICKY;
     }
 
     @Nullable
@@ -47,8 +54,11 @@ public class AppDetectorService extends Service {
 
     @Override
     public void onDestroy() {
-        this.appChecker.stop();
-        Log.d(TAG_NAME,"service destroyed ");
+        //this.appChecker.stop();
+        if(isCheckerOn)
+        {
+            appChecker.stop();
+        }
         super.onDestroy();
     }
 }
