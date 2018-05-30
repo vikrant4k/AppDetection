@@ -23,6 +23,7 @@ public class AppDetectorService extends Service {
         if(isScreenOn)
         {
             Log.d(TAG_NAME,"service started ");
+            startTracking();
             appChecker=new AppChecker();
             appChangeService=new AppChangeService();
             isCheckerOn=true;
@@ -58,7 +59,19 @@ public class AppDetectorService extends Service {
         if(isCheckerOn)
         {
             appChecker.stop();
+            stopTracking();
         }
         super.onDestroy();
+    }
+
+    private void startTracking() {
+        Log.d(TAG_NAME,"trackimg started");
+        Intent intent1 = new Intent(this, BackgroundDetectedActivitiesService.class);
+        startService(intent1);
+    }
+
+    private void stopTracking() {
+        Intent intent = new Intent(this, BackgroundDetectedActivitiesService.class);
+        stopService(intent);
     }
 }

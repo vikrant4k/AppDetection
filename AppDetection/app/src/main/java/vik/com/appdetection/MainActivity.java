@@ -1,10 +1,17 @@
 package vik.com.appdetection;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.ActivityRecognition;
 
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 import vik.com.appdetection.background.service.AppDetectorService;
@@ -12,7 +19,7 @@ import vik.com.appdetection.background.service.ReciverStartService;
 
 import static com.rvalerio.fgchecker.Utils.hasUsageStatsPermission;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +31,15 @@ public class MainActivity extends AppCompatActivity {
         requestUsageStatsPermission();
 
         startService(new Intent(this, ReciverStartService.class));
+
     }
     void requestUsageStatsPermission() {
            if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                        && !hasUsageStatsPermission(this)) {
                     startActivity(new Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS));
                 }
+
         }
+
+
 }

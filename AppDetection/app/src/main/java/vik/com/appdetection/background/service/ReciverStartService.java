@@ -40,4 +40,6 @@ public class ReciverStartService extends Service {
         super.onDestroy();
         unregisterReceiver(screenOnReciever);
     }
+
+
 }
