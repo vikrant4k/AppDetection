@@ -7,7 +7,7 @@ public class AppChangeService {
 
 private String prevPackageName="";
 
-public void findAppByPackage(String packageName, PackageManager manager)
+public String findAppByPackage(String packageName, PackageManager manager)
 {
     if(!packageName.equals(prevPackageName))
     {
@@ -20,7 +20,11 @@ public void findAppByPackage(String packageName, PackageManager manager)
         }
          String applicationName = (String) (ai != null ? manager.getApplicationLabel(ai) : "(unknown)");
          Log.d("com.vik",applicationName);
+         return applicationName;
     }
+    return null;
 }
+
+
 
 }

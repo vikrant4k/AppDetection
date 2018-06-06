@@ -13,15 +13,21 @@ public class ScreenOnReciever extends BroadcastReceiver {
     public static boolean wasScreenOn = true;
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
-            wasScreenOn = false;
-        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
-            wasScreenOn = true;
+        try {
+            if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
+                wasScreenOn = false;
+            } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+                wasScreenOn = true;
+            }
+            Intent i = new Intent(context, AppDetectorService.class);
+            i.putExtra("screen_state", wasScreenOn);
+            Log.d("com.vik", "" + wasScreenOn);
+            context.startService(i);
         }
-        Intent i = new Intent(context, AppDetectorService.class);
-        i.putExtra("screen_state", wasScreenOn);
-        Log.d("com.vik",""+wasScreenOn);
-        context.startService(i);
+        catch (Exception e)
+        {
+            Log.e("com.vik","errror",e);
+        }
     }
 
     public IntentFilter getFilter(){

@@ -1,13 +1,17 @@
 package vik.com.appdetection;
 
+import android.Manifest;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -20,7 +24,7 @@ import vik.com.appdetection.background.service.ReciverStartService;
 import static com.rvalerio.fgchecker.Utils.hasUsageStatsPermission;
 
 public class MainActivity extends AppCompatActivity  {
-
+    static public final int REQUEST_LOCATION = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,8 +33,21 @@ public class MainActivity extends AppCompatActivity  {
 
         //registerReceiver(screenOnReciever, screenOnReciever.getFilter());
         requestUsageStatsPermission();
+        requestLocationPermission();
+        //startForegroundService(new Intent(this, ReciverStartService.class));
+        //startService(new Intent(getApplicationContext(), ReciverStartService.class));
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(new Intent(getApplicationContext(), ReciverStartService.class));
+            } else {
+                startService(new Intent(getApplicationContext(), ReciverStartService.class));
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e("com.vik","error", e);
+        }
 
-        startService(new Intent(this, ReciverStartService.class));
 
     }
     void requestUsageStatsPermission() {
@@ -40,6 +57,12 @@ public class MainActivity extends AppCompatActivity  {
                 }
 
         }
+    private void requestLocationPermission() {
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+          ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+        }
+    }
 
 
 }

@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,10 +25,16 @@
             </intent-filter>
         </activity>
         <service android:name=".background.service.AppDetectorService"></service>
-        <service android:name=".background.service.ReciverStartService"></service>
+        <service android:name=".background.service.ReciverStartService" android:enabled="true"   android:permission="android.permission.BIND_JOB_SERVICE">
+
+        </service>
         <service android:name=".background.service.UserActivityService"></service>
         <service android:name=".background.service.BackgroundDetectedActivitiesService"></service>
+        <service android:name=".background.service.GeoLocationService" />
+
         <receiver android:name=".background.reciever.ScreenOnReciever" />
+        <receiver android:name=".background.reciever.RestartReciever" />
+        <receiver android:name=".background.reciever.BluetoothReciever" />
     </application>
 
 </manifest>
