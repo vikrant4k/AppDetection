@@ -2,17 +2,25 @@ package vik.com.appdetection.background.service;
 
 import android.app.AlarmManager;
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;;
+import android.os.Build.VERSION_CODES;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
+import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import java.util.Calendar;
 
+import vik.com.appdetection.R;
 import vik.com.appdetection.background.reciever.BluetoothReciever;
 import vik.com.appdetection.background.reciever.MailReciever;
 import vik.com.appdetection.background.reciever.RestartReciever;
@@ -71,11 +79,26 @@ public class ReciverStartService extends Service {
         }
     }
 
+    @RequiresApi(api = VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
-        startForeground(1,new Notification());
+        // startForeground(1,new Notification());
+        createNotification();
+    }
 
+    @RequiresApi(api = VERSION_CODES.O)
+    public void createNotification() {
+        NotificationChannel channel = new NotificationChannel("im_channel_id","System", NotificationManager.IMPORTANCE_LOW);
+                    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    manager.createNotificationChannel(channel);
+                Notification notification = new Notification.Builder(this, "im_channel_id")
+                    .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)  // the status icon
+                    .setWhen(System.currentTimeMillis())  // the time stamp
+                    .setContentText("AppDetection")  // the contents of the entry
+                    .build();
+
+        startForeground(101, notification);
     }
 
     @Override

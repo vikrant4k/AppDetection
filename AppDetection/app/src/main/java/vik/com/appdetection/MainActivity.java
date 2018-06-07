@@ -32,11 +32,11 @@ public class MainActivity extends AppCompatActivity  {
         //final ScreenOnReciever screenOnReciever = new ScreenOnReciever();
 
         //registerReceiver(screenOnReciever, screenOnReciever.getFilter());
-        requestUsageStatsPermission();
-        requestLocationPermission();
-        //startForegroundService(new Intent(this, ReciverStartService.class));
-        //startService(new Intent(getApplicationContext(), ReciverStartService.class));
         try {
+            requestUsageStatsPermission();
+            requestLocationPermission();
+            //startForegroundService(new Intent(this, ReciverStartService.class));
+            //startService(new Intent(getApplicationContext(), ReciverStartService.class));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(new Intent(getApplicationContext(), ReciverStartService.class));
             } else {
