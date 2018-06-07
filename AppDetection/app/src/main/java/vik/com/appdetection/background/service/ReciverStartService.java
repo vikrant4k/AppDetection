@@ -11,7 +11,10 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.util.Calendar;
+
 import vik.com.appdetection.background.reciever.BluetoothReciever;
+import vik.com.appdetection.background.reciever.MailReciever;
 import vik.com.appdetection.background.reciever.RestartReciever;
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 
@@ -19,6 +22,7 @@ public class ReciverStartService extends Service {
     private ScreenOnReciever screenOnReciever;
     private RestartReciever restartReciever;
     private BluetoothReciever bluetoothReciever;
+    private AlarmManager alarmMgr;
 
 
     @Nullable
@@ -29,6 +33,7 @@ public class ReciverStartService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        alarmMgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         screenOnReciever=new ScreenOnReciever();
         restartReciever=new RestartReciever();
         bluetoothReciever=new BluetoothReciever();
@@ -36,11 +41,34 @@ public class ReciverStartService extends Service {
         registerReceiver(screenOnReciever, screenOnReciever.getFilter());
         //registerReceiver(restartReciever,restartReciever.getFilter());
         registerReceiver(bluetoothReciever,bluetoothReciever.getFilter());
+        setUpAlarm(this);
         Log.d("com.vik", "Service onCreate: screenOnOffReceiver is registered.");
         Log.d("com.vik","On Create called");
 
 
         return Service.START_STICKY;
+    }
+
+    public void setUpAlarm(Context context)
+    {
+        try {
+            Intent intent = new Intent(context, MailReciever.class);
+            PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.set(Calendar.HOUR_OF_DAY, 1);
+            calendar.set(Calendar.MINUTE, 36);
+
+// With setInexactRepeating(), you have to use one of the AlarmManager interval
+// constants--in this case, AlarmManager.INTERVAL_DAY.
+            alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, alarmIntent);
+        }
+        catch (Exception e)
+        {
+            Log.d("com.vik","error",e);
+        }
     }
 
     @Override

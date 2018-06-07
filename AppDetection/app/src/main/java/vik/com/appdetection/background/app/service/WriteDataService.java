@@ -6,6 +6,7 @@ import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -19,9 +20,9 @@ import java.util.List;
 import vik.com.appdetection.pojo.FeatureData;
 
 public class WriteDataService {
+    public static String newline = System.getProperty("line.separator");
 
-
-private String getCurrentDate()
+public static  String getCurrentDate()
 {
     Date c = Calendar.getInstance().getTime();
     System.out.println("Current time => " + c);
@@ -40,7 +41,7 @@ private String convertListToString(List<FeatureData>featureDataList)
         .append(',').append(featureData.getLat()).append(',')
                 .append(featureData.getLon()).append(',').append(featureData.getBluetooth()).append(',').append(featureData.getIsAudioConnected())
         .append(',').append(featureData.isWifi())
-        .append(',').append(featureData.getBrightness()).append("\n");
+        .append(',').append(featureData.getBrightness()).append(newline);
     }
     if(featureDataList.size()>0) {
         return stringBuilder.toString();
@@ -55,17 +56,19 @@ public void writeDataToFile(List<FeatureData>featureDataList, Context context)
 {
     String data=convertListToString(featureDataList);
     if(data!=null) {
-        String filepath=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+ getCurrentDate();
+        String filepath= getCurrentDate();
+        File file = new File(context.getFilesDir(), filepath);
         Log.d("com.vik",filepath);
-        File file = new File(filepath);
+        //File file = new File(filepath);
         FileOutputStream fos;
+        Log.d("com.vik","file exist "+file.exists());
         if (!file.exists()) {
             try {
                 fos = context.openFileOutput(filepath, context.MODE_PRIVATE);
                 fos.write(data.getBytes());
                 fos.close();
             } catch (Exception e) {
-
+              Log.e("com.vik","error",e);
             }
 
         } else {
@@ -74,7 +77,7 @@ public void writeDataToFile(List<FeatureData>featureDataList, Context context)
                 fos.write(data.getBytes());
                 fos.close();
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("com.vik","error",e);
             }
         }
     }
@@ -85,9 +88,10 @@ public void writeDataToFile(List<FeatureData>featureDataList, Context context)
 public void readDataFromFile(Context context)
 {
     Log.d("com.vik","In file path");
-    String filepath=Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+"/"+ getCurrentDate();
+    String filepath=getCurrentDate();
     try {
-        InputStream inputStream = context.openFileInput(filepath);
+        //InputStream inputStream = context.openFileInput(filepath);
+        FileInputStream inputStream = new FileInputStream (new File(context.getFilesDir(),filepath));
         Log.d("com.vik","In file path");
         Log.d("com.vik",filepath);
         if ( inputStream != null ) {

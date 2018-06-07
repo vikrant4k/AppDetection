@@ -30,12 +30,18 @@ public class AppDetectorService extends Service {
         {
             appDetectorService=this;
             Log.d(TAG_NAME,"service started ");
-            startTracking();
-            //writeDataService.readDataFromFile(this);
             appChecker=new AppChecker();
             appChangeService=new AppChangeService();
             createDataService=new CreateDataService();
             writeDataService=new WriteDataService();
+            startTracking();
+            try {
+                writeDataService.readDataFromFile(this);
+            }
+            catch(Exception e)
+            {
+                Log.e("com.vik","error",e);
+            }
             //writeDataService.readDataFromFile(this);
             isCheckerOn=true;
             appChecker.whenAny(new AppChecker.Listener() {
