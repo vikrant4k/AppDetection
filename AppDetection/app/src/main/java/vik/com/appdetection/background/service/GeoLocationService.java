@@ -17,6 +17,7 @@ import android.util.Log;
 public class GeoLocationService extends Service {
     public static double lat=0.0;
     public static double lon=0.0;
+    public static boolean firstTime=false;
 
 
     @Nullable
@@ -91,12 +92,24 @@ public class GeoLocationService extends Service {
         initializeLocationManager();
 
         try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER,
-                    LOCATION_INTERVAL,
-                    LOCATION_DISTANCE,
-                    mLocationListeners[0]
-            );
+            if(firstTime) {
+                mLocationManager.requestLocationUpdates(
+                        LocationManager.GPS_PROVIDER,
+                        LOCATION_INTERVAL,
+                        LOCATION_DISTANCE,
+                        mLocationListeners[0]
+                );
+            }
+            else
+            {
+                mLocationManager.requestLocationUpdates(
+                        LocationManager.PASSIVE_PROVIDER,
+                        LOCATION_INTERVAL,
+                        LOCATION_DISTANCE,
+                        mLocationListeners[0]
+                );
+                firstTime=true;
+            }
         } catch (java.lang.SecurityException ex) {
             Log.i(TAG, "fail to request location update, ignore", ex);
         } catch (IllegalArgumentException ex) {

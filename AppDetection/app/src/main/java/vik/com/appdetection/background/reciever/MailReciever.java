@@ -16,7 +16,7 @@ public class MailReciever extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.d("com.vik","mail reciver activated");
-        sendMail(context);
+        //sendMail(context);
     }
 
     public void sendMail(Context context)
