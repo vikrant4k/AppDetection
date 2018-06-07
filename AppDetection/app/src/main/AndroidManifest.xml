@@ -48,6 +48,7 @@
         <service android:name=".background.service.UserActivityService"/>
         <service android:name=".background.service.BackgroundDetectedActivitiesService"/>
         <service android:name=".background.service.GeoLocationService"/>
+        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
 
         <receiver android:name=".background.reciever.ScreenOnReciever"/>
         <receiver android:name=".background.reciever.RestartReciever"/>
