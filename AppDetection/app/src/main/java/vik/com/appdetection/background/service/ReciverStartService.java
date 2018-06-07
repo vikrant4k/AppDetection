@@ -12,17 +12,13 @@ import android.os.Build.VERSION_CODES;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationCompat.Builder;
 import android.util.Log;
-import android.widget.RemoteViews;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
 import vik.com.appdetection.R;
 import vik.com.appdetection.background.reciever.BluetoothReciever;
-import vik.com.appdetection.background.reciever.MailReciever;
+import vik.com.appdetection.background.reciever.S3DumpReceiver;
 import vik.com.appdetection.background.reciever.RestartReciever;
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 
@@ -60,7 +56,7 @@ public class ReciverStartService extends Service {
     public void setUpAlarm(Context context)
     {
         try {
-            Intent intent = new Intent(context, MailReciever.class);
+            Intent intent = new Intent(context, S3DumpReceiver.class);
             PendingIntent alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
 
             Calendar calendar = Calendar.getInstance();

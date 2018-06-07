@@ -1,9 +1,8 @@
 package vik.com.appdetection;
 
-import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
-import android.view.View;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
@@ -14,30 +13,36 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import java.io.File;
 import vik.com.appdetection.background.app.service.WriteDataService;
 
-class DataDumper {
+public class DataDumper {
 
     // Class responsible for dumping the current data collected
     // for the user to a amazon S3 bucket.
 
-    public static void dumpData(Activity activity) {
+    public static void dumpData(Context context) {
         Log.d("Stian", "Dumping data..");
-        uploadWithTransferUtility(activity);
+        uploadWithTransferUtility(context);
     }
 
-    public static void uploadWithTransferUtility(Activity activity) {
+    private static void uploadWithTransferUtility(Context context) {
 
         TransferUtility transferUtility =
             TransferUtility.builder()
-                .context(activity.getApplicationContext())
+                .context(context)
                 .awsConfiguration(AWSMobileClient.getInstance().getConfiguration())
                 .s3Client(new AmazonS3Client(AWSMobileClient.getInstance().getCredentialsProvider()))
                 .build();
 
         String filename = WriteDataService.getCurrentDate();
-        File file = new File(activity.getApplicationContext().getFilesDir(), filename);
+        File file = new File(context.getFilesDir(), filename);
+
+        String userAccessId = AWSMobileClient.getInstance().getCredentialsProvider()
+            .getCredentials().getAWSAccessKeyId();
+
+        String uploadFilename = userAccessId + "_" + filename;
+
         TransferObserver uploadObserver =
             transferUtility.upload(
-                "uploads/test.csv",
+                "uploads/" + uploadFilename,
                 file);
 
         // Attach a listener to the observer to get state update and progress notifications

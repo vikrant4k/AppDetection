@@ -81,6 +81,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public void dumpData(View view) {
-        DataDumper.dumpData(this);
+        DataDumper.dumpData(getApplicationContext());
     }
 }
