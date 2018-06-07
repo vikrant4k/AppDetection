@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import android.view.View;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
@@ -79,5 +80,7 @@ public class MainActivity extends AppCompatActivity  {
         }).execute();
     }
 
-
+    public void dumpData(View view) {
+        DataDumper.dumpData(getApplicationContext());
+    }
 }
