@@ -24,20 +24,6 @@ public class MailReciever extends BroadcastReceiver {
         try {
             String filename = WriteDataService.getCurrentDate();
             File filelocation = new File(context.getFilesDir(), filename);
-            Uri apkURI = FileProvider.getUriForFile(
-                    context,
-                    context.getApplicationContext()
-                            .getPackageName() + ".provider", filelocation);
-            Intent emailIntent = new Intent(Intent.ACTION_SEND);
-            emailIntent.setType("text/plain");
-            String to[] = {"vikrant4.k@gmail.com"};
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, to);
-// the attachment
-            emailIntent.setDataAndType(apkURI,"plain/text");
-// the mail subject
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "App Detection Data");
-            emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            context.startActivity(Intent.createChooser(emailIntent, "Send email..."));
         }
         catch (Exception e)
         {
