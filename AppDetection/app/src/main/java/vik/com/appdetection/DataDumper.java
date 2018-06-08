@@ -12,6 +12,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 
 import java.io.File;
 import vik.com.appdetection.background.app.service.WriteDataService;
+import vik.com.appdetection.utils.Constants;
 
 public class DataDumper {
 
@@ -20,6 +21,12 @@ public class DataDumper {
 
     public static void dumpData(Context context) {
         Log.d("Stian", "Dumping data..");
+
+        if (!Constants.enableUpload) {
+            Log.d("Stian", "Upload is disabled. Upload aborted. See Constants");
+            return;
+        }
+
         uploadWithTransferUtility(context);
     }
 
@@ -33,12 +40,17 @@ public class DataDumper {
                 .build();
 
         String filename = WriteDataService.getCurrentDate();
-        File file = new File(context.getFilesDir(), filename);
+        File file = null;
 
-        String userAccessId = AWSMobileClient.getInstance().getCredentialsProvider()
-            .getCredentials().getAWSAccessKeyId();
+        try {
+            file = new File(context.getFilesDir(), filename);
+        } catch (IllegalArgumentException e) {
+            Log.d("com.vik", "Uploading was attempted with no csv file available. Aborting upload...");
+            return;
+        }
 
-        String uploadFilename = userAccessId + "_" + filename;
+        String userId = UserHandler.getCurrentUserId();
+        String uploadFilename = userId + "_" + filename;
 
         TransferObserver uploadObserver =
             transferUtility.upload(
@@ -79,7 +91,7 @@ public class DataDumper {
             // Handle a completed upload.
         }
 
-        Log.d("YourActivity", "Bytes Transferrred: " + uploadObserver.getBytesTransferred());
-        Log.d("YourActivity", "Bytes Total: " + uploadObserver.getBytesTotal());
+        Log.d("com.vik", "Bytes Transferrred: " + uploadObserver.getBytesTransferred());
+        Log.d("com.vik", "Bytes Total: " + uploadObserver.getBytesTotal());
     }
 }

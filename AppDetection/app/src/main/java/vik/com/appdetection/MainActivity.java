@@ -71,11 +71,10 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void connectToAWS() {
-        Log.d("Test", "Amazon starting");
         AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
             @Override
             public void onComplete(AWSStartupResult awsStartupResult) {
-                Log.d("YourMainActivity", "AWSMobileClient is instantiated and you are connected to AWS!");
+                Log.d("com.vik", "AWSMobileClient is instantiated and you are connected to AWS!");
             }
         }).execute();
     }
