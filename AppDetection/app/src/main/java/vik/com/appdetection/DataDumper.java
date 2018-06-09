@@ -12,6 +12,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 
 import java.io.File;
 import vik.com.appdetection.background.app.service.WriteDataService;
+import vik.com.appdetection.background.handler.CredentialHandler;
 import vik.com.appdetection.utils.Constants;
 
 public class DataDumper {
@@ -20,10 +21,10 @@ public class DataDumper {
     // for the user to a amazon S3 bucket.
 
     public static void dumpData(Context context) {
-        Log.d("Stian", "Dumping data..");
+        Log.d("com.vik", "Dumping data..");
 
         if (!Constants.enableUpload) {
-            Log.d("Stian", "Upload is disabled. Upload aborted. See Constants");
+            Log.d("com.vik", "Upload is disabled. Upload aborted. See Constants");
             return;
         }
 
@@ -50,13 +51,16 @@ public class DataDumper {
         }
 
         String userId = UserHandler.getCurrentUserId();
-        String uploadFilename = userId + "_" + filename;
+
+        Log.d("com.vik", "uploadWithTransferUtility:-- user "+CredentialHandler.SIGNED_IN_USER);
+        String uploadFilename = CredentialHandler.SIGNED_IN_USER +"/" + filename;
 
         TransferObserver uploadObserver =
             transferUtility.upload(
                 "uploads/" + uploadFilename,
                 file);
 
+        Log.d("com.vik","Uploaded file_name " + uploadFilename);
         // Attach a listener to the observer to get state update and progress notifications
         uploadObserver.setTransferListener(new TransferListener() {
 
@@ -64,7 +68,7 @@ public class DataDumper {
             public void onStateChanged(int id, TransferState state) {
                 if (TransferState.COMPLETED == state) {
                     // Handle a completed upload.
-                    Log.d("Stian", "Upload completed");
+                    Log.d("com.vik", "Upload completed");
                 }
             }
 
@@ -79,8 +83,8 @@ public class DataDumper {
 
             @Override
             public void onError(int id, Exception ex) {
-                Log.d("Stian", "An error occurred while uploading:");
-                Log.d("Stian", ex.getMessage());
+                Log.d("com.vik", "An error occurred while uploading:");
+                Log.d("com.vik", ex.getMessage());
             }
 
         });

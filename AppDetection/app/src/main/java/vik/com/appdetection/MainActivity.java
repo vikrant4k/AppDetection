@@ -27,6 +27,7 @@ import vik.com.appdetection.background.service.ReciverStartService;
 
 import static com.rvalerio.fgchecker.Utils.hasUsageStatsPermission;
 
+
 public class MainActivity extends AppCompatActivity  {
     static public final int REQUEST_LOCATION = 1;
 

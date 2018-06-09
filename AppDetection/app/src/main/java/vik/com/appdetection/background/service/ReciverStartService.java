@@ -15,9 +15,15 @@ import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+
 import java.util.Calendar;
 
 import vik.com.appdetection.R;
+import vik.com.appdetection.background.handler.CredentialHandler;
 import vik.com.appdetection.background.reciever.BluetoothReciever;
 import vik.com.appdetection.background.reciever.S3DumpReceiver;
 import vik.com.appdetection.background.reciever.RestartReciever;
@@ -28,6 +34,8 @@ public class ReciverStartService extends Service {
     private RestartReciever restartReciever;
     private BluetoothReciever bluetoothReciever;
     private AlarmManager alarmMgr;
+    AWSConfiguration creds ;
+    CognitoUserPool userPool;
 
 
     @Nullable
@@ -47,11 +55,21 @@ public class ReciverStartService extends Service {
         //registerReceiver(restartReciever,restartReciever.getFilter());
         registerReceiver(bluetoothReciever,bluetoothReciever.getFilter());
         setUpAlarm(this);
+
+        creds = AWSMobileClient.getInstance().getConfiguration();
+        userPool = new CognitoUserPool(this, creds);
+        getUserDetails();
         Log.d("com.vik", "Service onCreate: screenOnOffReceiver is registered.");
         Log.d("com.vik","On Create called");
 
 
         return Service.START_STICKY;
+    }
+
+    private void getUserDetails()
+    {
+        CognitoUser user = userPool.getCurrentUser();
+        user.getDetailsInBackground(new CredentialHandler());
     }
 
     public void setUpAlarm(Context context)
