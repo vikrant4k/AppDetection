@@ -9,8 +9,10 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.rvalerio.fgchecker.AppChecker;
 
+import io.fabric.sdk.android.Fabric;
 import vik.com.appdetection.background.app.service.AppChangeService;
 import vik.com.appdetection.background.app.service.CreateDataService;
 import vik.com.appdetection.background.app.service.WriteDataService;
@@ -32,6 +34,8 @@ public class AppDetectorService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle=intent.getExtras();
         boolean isScreenOn=(Boolean) bundle.get("screen_state");
+
+        Fabric.with(getApplicationContext(),new Crashlytics());
 
         if(isScreenOn)
         {

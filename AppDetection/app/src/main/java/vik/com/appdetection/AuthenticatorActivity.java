@@ -20,7 +20,7 @@ public class AuthenticatorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticator);
-        Fabric.with(this, new Crashlytics());
+        Fabric.with(getApplicationContext(), new Crashlytics());
 
         logUser();
 

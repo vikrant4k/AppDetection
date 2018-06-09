@@ -17,10 +17,12 @@ import android.view.View;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
 
+import io.fabric.sdk.android.Fabric;
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 import vik.com.appdetection.background.service.AppDetectorService;
 import vik.com.appdetection.background.service.ReciverStartService;
