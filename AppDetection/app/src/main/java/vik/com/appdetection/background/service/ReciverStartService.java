@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;;
+import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -80,7 +81,9 @@ public class ReciverStartService extends Service {
     public void onCreate() {
         super.onCreate();
         // startForeground(1,new Notification());
-        createNotification();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            createNotification();
+        }
     }
 
     @RequiresApi(api = VERSION_CODES.O)
