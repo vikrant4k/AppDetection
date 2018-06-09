@@ -2,6 +2,8 @@ package vik.com.appdetection.background.service;
 
 import android.app.Service;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -12,6 +14,7 @@ import com.rvalerio.fgchecker.AppChecker;
 import vik.com.appdetection.background.app.service.AppChangeService;
 import vik.com.appdetection.background.app.service.CreateDataService;
 import vik.com.appdetection.background.app.service.WriteDataService;
+import vik.com.appdetection.background.listener.LightSensor;
 
 public class AppDetectorService extends Service {
     private static  final String TAG_NAME="com.vik.appdetect";
@@ -21,6 +24,10 @@ public class AppDetectorService extends Service {
     private WriteDataService writeDataService;
     private boolean isCheckerOn=false;
     private AppDetectorService appDetectorService=null;
+    private SensorManager sensorManager;
+    private Sensor sensor;
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle bundle=intent.getExtras();
@@ -35,6 +42,7 @@ public class AppDetectorService extends Service {
             createDataService=new CreateDataService();
             writeDataService=new WriteDataService();
             startTracking();
+            startLightSensor();
             try {
                 writeDataService.readDataFromFile(this);
             }
@@ -87,6 +95,18 @@ public class AppDetectorService extends Service {
             }
         }
         super.onDestroy();
+    }
+
+    private void startLightSensor()
+    {
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        sensorManager.registerListener(new LightSensor(), sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    private void stopLightSensor()
+    {
+
     }
 
     private void startTracking() {

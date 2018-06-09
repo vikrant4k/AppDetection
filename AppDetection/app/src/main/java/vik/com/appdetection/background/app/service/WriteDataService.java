@@ -41,7 +41,7 @@ private String convertListToString(List<FeatureData>featureDataList)
         .append(',').append(featureData.getLat()).append(',')
                 .append(featureData.getLon()).append(',').append(featureData.getBluetooth()).append(',').append(featureData.getIsAudioConnected())
         .append(',').append(featureData.isWifi())
-        .append(',').append(featureData.getBrightness()).append(newline);
+        .append(',').append(featureData.getIlluminance()).append(',').append(featureData.getIsWeekday()).append(",").append(featureData.getChargingStatus()).append(newline);
     }
     if(featureDataList.size()>0) {
         return stringBuilder.toString();

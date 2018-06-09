@@ -93,17 +93,29 @@ public class GeoLocationService extends Service {
 
         try {
             if(firstTime) {
-                mLocationManager.requestLocationUpdates(
-                        LocationManager.GPS_PROVIDER,
-                        LOCATION_INTERVAL,
-                        LOCATION_DISTANCE,
-                        mLocationListeners[0]
-                );
+                boolean gps_enabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                if(gps_enabled) {
+                    mLocationManager.requestLocationUpdates(
+                            LocationManager.GPS_PROVIDER,
+                            LOCATION_INTERVAL,
+                            LOCATION_DISTANCE,
+                            mLocationListeners[0]
+                    );
+                }
+                else
+                {
+                    mLocationManager.requestLocationUpdates(
+                            LocationManager.NETWORK_PROVIDER,
+                            LOCATION_INTERVAL,
+                            LOCATION_DISTANCE,
+                            mLocationListeners[0]
+                    );
+                }
             }
             else
             {
                 mLocationManager.requestLocationUpdates(
-                        LocationManager.PASSIVE_PROVIDER,
+                        LocationManager.NETWORK_PROVIDER,
                         LOCATION_INTERVAL,
                         LOCATION_DISTANCE,
                         mLocationListeners[0]

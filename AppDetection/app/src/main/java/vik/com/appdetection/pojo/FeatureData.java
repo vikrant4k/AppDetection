@@ -9,9 +9,11 @@ public class FeatureData {
     boolean isWifi;
     int bluetooth;
     int isAudioConnected;
-    double brightness;
+    float illuminance;
+    int isWeekday;
+    int chargingStatus;
 
-    public FeatureData(long timestamp, String appName, double lat, double lon, int activityType, boolean isWifi, int bluetooth, int isAudioConnected, double brightness) {
+    public FeatureData(long timestamp, String appName, double lat, double lon, int activityType, boolean isWifi, int bluetooth, int isAudioConnected, float illuminance, int isWeekday, int chargingStatus) {
         this.timestamp = timestamp;
         this.appName = appName;
         this.lat = lat;
@@ -20,7 +22,9 @@ public class FeatureData {
         this.isWifi = isWifi;
         this.bluetooth = bluetooth;
         this.isAudioConnected = isAudioConnected;
-        this.brightness = brightness;
+        this.illuminance = illuminance;
+        this.isWeekday = isWeekday;
+        this.chargingStatus = chargingStatus;
     }
 
     public long getTimestamp() {
@@ -55,7 +59,15 @@ public class FeatureData {
         return isAudioConnected;
     }
 
-    public double getBrightness() {
-        return brightness;
+    public float getIlluminance() {
+        return illuminance;
+    }
+
+    public int getIsWeekday() {
+        return isWeekday;
+    }
+
+    public int getChargingStatus() {
+        return chargingStatus;
     }
 }

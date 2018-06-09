@@ -9,7 +9,9 @@ public class FeatureDataBuilder {
     private boolean isWifi;
     private int bluetooth;
     private int isAudioConnected;
-    private double brightness;
+    private float illuminance;
+    private int isWeekday;
+    private int chargingStatus;
 
     public FeatureDataBuilder setTimestamp(long timestamp) {
         this.timestamp = timestamp;
@@ -51,12 +53,22 @@ public class FeatureDataBuilder {
         return this;
     }
 
-    public FeatureDataBuilder setBrightness(double brightness) {
-        this.brightness = brightness;
+    public FeatureDataBuilder setIlluminance(float illuminance) {
+        this.illuminance = illuminance;
+        return this;
+    }
+
+    public FeatureDataBuilder setIsWeekday(int isWeekday) {
+        this.isWeekday = isWeekday;
+        return this;
+    }
+
+    public FeatureDataBuilder setChargingStatus(int chargingStatus) {
+        this.chargingStatus = chargingStatus;
         return this;
     }
 
     public FeatureData createFeatureData() {
-        return new FeatureData(timestamp, appName, lat, lon, activityType, isWifi, bluetooth, isAudioConnected, brightness);
+        return new FeatureData(timestamp, appName, lat, lon, activityType, isWifi, bluetooth, isAudioConnected, illuminance, isWeekday, chargingStatus);
     }
 }
