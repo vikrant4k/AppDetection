@@ -20,6 +20,7 @@ import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import java.util.Calendar;
 
 import vik.com.appdetection.R;

@@ -14,9 +14,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import android.view.View;
+import com.amazonaws.mobile.auth.core.IdentityManager;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -84,5 +86,11 @@ public class MainActivity extends AppCompatActivity  {
 
     public void dumpData(View view) {
         DataDumper.dumpData(getApplicationContext());
+    }
+
+    public void handleSignOut(View view) {
+        Log.d("com.vik.sign", "Should be signout out now");
+        IdentityManager.getDefaultIdentityManager().signOut();
+
     }
 }

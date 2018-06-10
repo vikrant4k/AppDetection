@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.amazonaws.mobile.auth.core.IdentityManager;
+import com.amazonaws.mobile.auth.core.SignInStateChangeListener;
 import com.amazonaws.mobile.auth.ui.SignInUI;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
@@ -15,34 +17,40 @@ import io.fabric.sdk.android.Fabric;
 
 public class AuthenticatorActivity extends Activity {
 
-    public static String SignedInUser = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticator);
-        //Fabric.with(getApplicationContext(), new Crashlytics());
 
-        logUser();
+        AWSMobileClient.getInstance().initialize(this).execute();
 
-        // Add a call to initialize AWSMobileClient
-        AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
+        // Sign-in listener
+        Log.d("com.vik.sign", "Attaching sign in/out listener");
+        IdentityManager.getDefaultIdentityManager().addSignInStateChangeListener(new SignInStateChangeListener() {
             @Override
-            public void onComplete(AWSStartupResult awsStartupResult) {
-                SignInUI signin = (SignInUI) AWSMobileClient.getInstance().getClient(AuthenticatorActivity.this, SignInUI.class);
-                signin.login(AuthenticatorActivity.this, MainActivity.class).execute();
-
+            public void onUserSignedIn() {
+                Log.d("com.vik.sign", "User Signed In");
             }
 
+            // Sign-out listener
+            @Override
+            public void onUserSignedOut() {
+                Log.d("com.vik.sign", "User Signed Out");
+                showSignIn();
+            }
+        });
 
-
-
-        }).execute();
-
+        showSignIn();
     }
 
-    private void logUser() {
-        // You can call any combination of these three methods
-        //Crashlytics.setUserIdentifier(SignedInUser);
+
+    /*
+     * Display the AWS SDK sign-in/sign-up UI
+     */
+    private void showSignIn() {
+        Log.d("com.vik.sign", "Showing user sign in");
+        SignInUI signin = (SignInUI) AWSMobileClient.getInstance().getClient(AuthenticatorActivity.this, SignInUI.class);
+        signin.login(AuthenticatorActivity.this, MainActivity.class).execute();
     }
 
 }
