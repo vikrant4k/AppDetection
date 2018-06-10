@@ -37,11 +37,13 @@ private String convertListToString(List<FeatureData>featureDataList)
     StringBuilder stringBuilder=new StringBuilder();
     for (FeatureData featureData:featureDataList)
     {
-        stringBuilder.append(featureData.getTimestamp()).append(',').append(featureData.getAppName()).append(',').append(featureData.getActivityType())
-        .append(',').append(featureData.getLat()).append(',')
-                .append(featureData.getLon()).append(',').append(featureData.getBluetooth()).append(',').append(featureData.getIsAudioConnected())
-        .append(',').append(featureData.isWifi())
-        .append(',').append(featureData.getIlluminance()).append(',').append(featureData.getIsWeekday()).append(",").append(featureData.getChargingStatus()).append(newline);
+        if(featureData!=null) {
+            stringBuilder.append(featureData.getTimestamp()).append(',').append(featureData.getAppName()).append(',').append(featureData.getActivityType())
+                    .append(',').append(featureData.getLat()).append(',')
+                    .append(featureData.getLon()).append(',').append(featureData.getBluetooth()).append(',').append(featureData.getIsAudioConnected())
+                    .append(',').append(featureData.isWifi())
+                    .append(',').append(featureData.getIlluminance()).append(',').append(featureData.getIsWeekday()).append(",").append(featureData.getChargingStatus()).append(newline);
+        }
     }
     if(featureDataList.size()>0) {
         return stringBuilder.toString();

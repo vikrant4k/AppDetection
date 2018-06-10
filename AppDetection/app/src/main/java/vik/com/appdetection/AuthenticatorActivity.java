@@ -20,7 +20,7 @@ public class AuthenticatorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authenticator);
-        Fabric.with(getApplicationContext(), new Crashlytics());
+        //Fabric.with(getApplicationContext(), new Crashlytics());
 
         logUser();
 
@@ -42,7 +42,7 @@ public class AuthenticatorActivity extends Activity {
 
     private void logUser() {
         // You can call any combination of these three methods
-        Crashlytics.setUserIdentifier(SignedInUser);
+        //Crashlytics.setUserIdentifier(SignedInUser);
     }
 
 }

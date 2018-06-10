@@ -17,6 +17,7 @@ import vik.com.appdetection.background.app.service.AppChangeService;
 import vik.com.appdetection.background.app.service.CreateDataService;
 import vik.com.appdetection.background.app.service.WriteDataService;
 import vik.com.appdetection.background.listener.LightSensor;
+import vik.com.appdetection.pojo.FeatureData;
 
 public class AppDetectorService extends Service {
     private static  final String TAG_NAME="com.vik.appdetect";
