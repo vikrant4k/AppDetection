@@ -16,8 +16,7 @@ public class CredentialHandler implements GetDetailsHandler {
         Log.d("com.vik","In Success Credential");
         CognitoUserAttributes attributes = cognitoUserDetails.getAttributes();
         Map<String,String> attributesMap=  attributes.getAttributes();
-
-        SIGNED_IN_USER = attributesMap.get("given_name");
+        SIGNED_IN_USER = attributesMap.get("email");
         Log.d("com.vik", "-- user -- "+CredentialHandler.SIGNED_IN_USER);
     }
 

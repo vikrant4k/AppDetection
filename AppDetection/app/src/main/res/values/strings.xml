@@ -1,4 +1,5 @@
 <resources>
   <string name="app_name">AppDetection</string>
   <string name="title_activity_authenticator">AuthenticatorActivity</string>
+  <string name="display_message">Thank you for signing in . Please press the back button  </string>
 </resources>
