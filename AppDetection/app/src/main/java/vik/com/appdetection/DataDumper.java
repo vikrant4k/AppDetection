@@ -28,6 +28,10 @@ public class DataDumper {
             return;
         }
 
+        if (!UserHandler.hasAgreedToTerms()) {
+            Log.d("com.vik", "The user has not agreed to the terms and conditions. Not uploading data");
+            return;
+        }
         uploadWithTransferUtility(context);
     }
 

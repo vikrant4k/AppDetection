@@ -11,7 +11,17 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 
 class UserHandler {
 
+    private static Boolean hasAgreedToTerms = false;
+
     public static String getCurrentUserId() {
         return IdentityManager.getDefaultIdentityManager().getCachedUserID();
+    }
+
+    public static void setHasAgreedToTerms(Boolean val) {
+        hasAgreedToTerms = val;
+    }
+
+    public static Boolean hasAgreedToTerms() {
+        return hasAgreedToTerms;
     }
 }

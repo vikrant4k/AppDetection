@@ -2,4 +2,10 @@
   <string name="app_name">AppDetection</string>
   <string name="title_activity_authenticator">AuthenticatorActivity</string>
   <string name="display_message">Thank you for signing in . Please press the back button  </string>
+  <string name="title_activity_agreement">AgreementActivity</string>
+  <string name="agreement">The app will collect the following information about your phone usage:
+    The timestamp of when you opened which app, your location...
+  </string>
+  <string name="decline_button_text">Decline</string>
+  <string name="accept_button_text">Accept</string>
 </resources>

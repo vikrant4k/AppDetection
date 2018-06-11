@@ -3,68 +3,75 @@
   xmlns:tools="http://schemas.android.com/tools"
   package="vik.com.appdetection">
 
-    <uses-permission
-      android:name="android.permission.PACKAGE_USAGE_STATS"
-      tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission
+    android:name="android.permission.PACKAGE_USAGE_STATS"
+    tools:ignore="ProtectedPermissions"/>
+  <uses-permission android:name="com.google.android.gms.permission.ACTIVITY_RECOGNITION"/>
+  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.INTERNET"/>
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
-    <application
-      android:allowBackup="true"
-      android:icon="@mipmap/ic_launcher"
-      android:label="@string/app_name"
-      android:roundIcon="@mipmap/ic_launcher_round"
-      android:supportsRtl="true"
-      android:theme="@style/AppTheme">
-        <provider
-          android:authorities="${applicationId}.provider"
-          android:exported="false"
-          android:grantUriPermissions="true"
-          android:name="android.support.v4.content.FileProvider">
-            <meta-data
-              android:name="android.support.FILE_PROVIDER_PATHS"
-              android:resource="@xml/provider_paths"/>
-        </provider>
+  <application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <provider
+      android:authorities="${applicationId}.provider"
+      android:exported="false"
+      android:grantUriPermissions="true"
+      android:name="android.support.v4.content.FileProvider">
+      <meta-data
+        android:name="android.support.FILE_PROVIDER_PATHS"
+        android:resource="@xml/provider_paths"/>
+    </provider>
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-        </activity>
+    <activity android:name=".MainActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
+      </intent-filter>
+    </activity>
 
-        <service android:name=".background.service.AppDetectorService"/>
-        <service
-          android:enabled="true"
-          android:name=".background.service.ReciverStartService"
-          android:permission="android.permission.BIND_JOB_SERVICE">
-        </service>
-        <service android:name=".background.service.UserActivityService"/>
-        <service android:name=".background.service.BackgroundDetectedActivitiesService"/>
-        <service android:name=".background.service.GeoLocationService"/>
-        <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService" android:enabled="true" />
+    <service android:name=".background.service.AppDetectorService"/>
+    <service
+      android:enabled="true"
+      android:name=".background.service.ReciverStartService"
+      android:permission="android.permission.BIND_JOB_SERVICE">
+    </service>
+    <service android:name=".background.service.UserActivityService"/>
+    <service android:name=".background.service.BackgroundDetectedActivitiesService"/>
+    <service android:name=".background.service.GeoLocationService"/>
+    <service
+      android:enabled="true"
+      android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"/>
 
-        <receiver android:name=".background.reciever.ScreenOnReciever"/>
-        <receiver android:name=".background.reciever.RestartReciever"/>
-        <receiver android:name=".background.reciever.BluetoothReciever"/>
-        <receiver android:name=".background.reciever.S3DumpReceiver"/>
+    <receiver android:name=".background.reciever.ScreenOnReciever"/>
+    <receiver android:name=".background.reciever.RestartReciever"/>
+    <receiver android:name=".background.reciever.BluetoothReciever"/>
+    <receiver android:name=".background.reciever.S3DumpReceiver"/>
 
-        <activity android:name=".AuthenticatorActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+    <activity android:name=".AuthenticatorActivity">
+      <intent-filter>
+        <action android:name="android.intent.action.MAIN"/>
 
+        <category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+    </activity>
 
-        </activity>
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="c50b6d7293ffa1827304b4d55de9b279e7e5fc93"
-            />
-    </application>
+    <meta-data
+      android:name="io.fabric.ApiKey"
+      android:value="c50b6d7293ffa1827304b4d55de9b279e7e5fc93"/>
+
+    <activity
+      android:label="@string/title_activity_agreement"
+      android:name=".AgreementActivity"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+  </application>
 
 </manifest>
