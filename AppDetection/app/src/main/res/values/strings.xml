@@ -1,14 +1,20 @@
 <resources>
   <string name="app_name">AppDetection</string>
   <string name="title_activity_authenticator">AuthenticatorActivity</string>
-  <string name="display_message">Thank you for signing in . Please press the back button  </string>
-  <string name="title_activity_agreement">AgreementActivity</string>
-  <string name="agreement">The app will collect the following information about your phone usage:
-    The timestamp of when you opened which app, your location...
+  <string name="display_message">Thank you for signing in. The app is now running in the background and you can close it. </string>
+  <string name="title_activity_agreement">Terms And Conditions</string>
+  <string name="agreement">AppDetection will collect the following information about your Android phone usage:
+    The timestamp of when you opened which app and your location (in the form of latitude and longitude) when opening it.
+    AppDetection will register if you were connected to WiFi and/or Bluetooth, but no other information about your connection is stored.
+    AppDetection records whether the phone is connected to a set of headphones, whether the phone is charging, and if the auto-brightness
+    settings is on, and the screen brightness sensitivity.
+    \n\n
+    You can at any time request to have access to all data we have collected on you, and to have it deleted if you desire so.
+    \n\n
   </string>
   <string name="decline_button_text">Decline</string>
   <string name="accept_button_text">Accept</string>
-  <string name="title_activity_agreement_not_accepted">AgreementNotAccepted</string>
+  <string name="title_activity_agreement_not_accepted">Agreement Not Accepted</string>
   <string name="NotAcceptedText">You have decided not to accept our terms for the app.
     That is okay, but if you change your mind you can always click the button below in order to view
     the conditions again. No data will be collected about you as of now.

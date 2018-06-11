@@ -2,8 +2,6 @@ package vik.com.appdetection;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -21,7 +19,7 @@ public class AgreementActivity extends AppCompatActivity {
 
     public void handleUserDecline(View v) {
         UserHandler.setHasAgreedToTerms(false, this);
-        Intent intent = new Intent(this, AgreementNotAccepted.class);
+        Intent intent = new Intent(this, AgreementNotAcceptedActivity.class);
         startActivity(intent);
     }
 

@@ -31,7 +31,9 @@
         android:resource="@xml/provider_paths"/>
     </provider>
 
-    <activity android:name=".MainActivity">
+    <activity
+      android:name=".MainActivity"
+      android:noHistory="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
       </intent-filter>
@@ -58,7 +60,6 @@
     <activity android:name=".AuthenticatorActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
-
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
     </activity>
@@ -74,7 +75,7 @@
     </activity>
     <activity
       android:label="@string/title_activity_agreement_not_accepted"
-      android:name=".AgreementNotAccepted"
+      android:name=".AgreementNotAcceptedActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>
