@@ -21,6 +21,8 @@ public class AgreementActivity extends AppCompatActivity {
 
     public void handleUserDecline(View v) {
         UserHandler.setHasAgreedToTerms(false, this);
+        Intent intent = new Intent(this, AgreementNotAccepted.class);
+        startActivity(intent);
     }
 
     public void handleUserAccept(View v) {

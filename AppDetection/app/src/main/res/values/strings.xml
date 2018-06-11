@@ -8,4 +8,9 @@
   </string>
   <string name="decline_button_text">Decline</string>
   <string name="accept_button_text">Accept</string>
+  <string name="title_activity_agreement_not_accepted">AgreementNotAccepted</string>
+  <string name="NotAcceptedText">You have decided not to accept our terms for the app.
+    That is okay, but if you change your mind you can always click the button below in order to view
+    the conditions again. No data will be collected about you as of now.
+  </string>
 </resources>

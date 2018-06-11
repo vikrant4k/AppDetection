@@ -72,6 +72,11 @@
       android:name=".AgreementActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
+    <activity
+      android:label="@string/title_activity_agreement_not_accepted"
+      android:name=".AgreementNotAccepted"
+      android:theme="@style/AppTheme.NoActionBar">
+    </activity>
   </application>
 
 </manifest>
