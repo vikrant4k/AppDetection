@@ -7,7 +7,7 @@
     The timestamp of when you opened which app and your location (in the form of latitude and longitude) when opening it.
     AppDetection will register if you were connected to WiFi and/or Bluetooth, but no other information about your connection is stored.
     AppDetection records whether the phone is connected to a set of headphones, whether the phone is charging, and if the auto-brightness
-    settings is on, and the screen brightness sensitivity.
+    settings is on, and the screen brightness level.
     \n\n
     You can at any time request to have access to all data we have collected on you, and to have it deleted if you desire so.
     \n\n
@@ -19,4 +19,24 @@
     That is okay, but if you change your mind you can always click the button below in order to view
     the conditions again. No data will be collected about you as of now.
   </string>
+  <string name="title_activity_information">About</string>
+  <string name="about">
+    This is an app made by two students at the University of Amsterdam used for the course Project AI.
+    The purpose of this app is to collect data on which app the user used when, and eventually use AI techniques to
+    predict what app the user will open next. As of now we have a very raw alpha version of the app, and the goal is
+    to eventually have a nice user interface where the most likely apps are shown to the user.
+    The data collected will only be used for research purposes.
+    \n\n
+    The app will collect the following information about your Android phone usage:
+    The timestamp of when you opened which app and your location (in the form of latitude and longitude) when opening it.
+    AppDetection will register if you were connected to WiFi and/or Bluetooth, but no other information about your connection is stored.
+    AppDetection records whether the phone is connected to a set of headphones, whether the phone is charging, and if the auto-brightness
+    settings is on, and the screen brightness level.
+    \n\n
+    You can at any time request to have access to all data we have collected on you, and to have it deleted if you desire so.
+    \n\n
+    This can be done by sending an email to appdetectionai@gmail.com. Send an email with your username and the request you have.
+    This email can also be contacted for other purposes such as feedback and other concerns.
+  </string>
+  <string name="action_settings">Settings</string>
 </resources>
