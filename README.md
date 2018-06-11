@@ -15,7 +15,7 @@ In order to do this, you must first allow sources from outside the Play Store to
 Follow the instructions found [here](https://www.applivery.com/docs/troubleshooting/android-unknown-sources)
 
 2. Next, download the .apk file to your phone. The file can be found 
-[here](https://l.messenger.com/l.php?u=https%3A%2F%2Fwww.dropbox.com%2Fs%2Fddrjqg2cno2n21j%2Fapp-debug.apk%3Fdl%3D0&h=ATO5VFpI_fEtt4PmYgoGcXv1p3X0osr7sExYkcCyse9a02p5NB43h0_6k1IQoenwhaapaZvkhhnTyKz25-24x0Hw1veqHh97RbD-T13gcERHNw).
+[here](https://www.dropbox.com/s/qeno4g0qgfl7zzp/app-debug.apk?dl=0).
 Press the file once downloaded, and the app should install on your Android device.
 
 3. The first time you open the app, you will be provided with a Sign-in screen. Press `Create New Account` in the bottom
