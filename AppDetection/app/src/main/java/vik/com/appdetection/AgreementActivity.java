@@ -20,12 +20,13 @@ public class AgreementActivity extends AppCompatActivity {
     }
 
     public void handleUserDecline(View v) {
-        UserHandler.setHasAgreedToTerms(false);
+        UserHandler.setHasAgreedToTerms(false, this);
     }
 
     public void handleUserAccept(View v) {
-        UserHandler.setHasAgreedToTerms(true);
+        UserHandler.setHasAgreedToTerms(true, this);
         Log.d("com.vik", "User has agreed to terms and conditions");
+        Log.d("The value is now", String.valueOf(UserHandler.hasAgreedToTerms(this)));
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

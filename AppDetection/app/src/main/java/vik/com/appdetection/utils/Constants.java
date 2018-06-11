@@ -8,5 +8,7 @@ public class Constants {
 
     public static final int CONFIDENCE = 70;
 
-    public static final boolean enableUpload = true;
+    public static final boolean ENABLE_UPLOAD = true;
+
+    public static final String PREFERENCES = "userpreferences";
 }
