@@ -49,10 +49,15 @@ public class CreateDataService {
     {
         ConnectivityManager cm =
                 (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
-        return isWiFi;
+         if(cm!=null) {
+             NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+             if(activeNetwork!=null) {
+                 boolean isWiFi = activeNetwork.getType() == ConnectivityManager.TYPE_WIFI;
+                 return isWiFi;
+             }
+             return false;
+         }
+         return false;
     }
     private int isHeadsetOn(Context context)
     {
