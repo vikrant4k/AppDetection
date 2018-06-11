@@ -6,7 +6,7 @@ this app is to collect data on which app the user used when, and eventually use 
 user will open next. As of now we have a very raw alpha version of the app, and the goal is to eventually have a 
 nice user interface where the most likely apps are shown to the user. 
 The data collected is anonymized and will only be used for research purposes. 
-[More infromation can be found here.](https://docs.google.com/document/d/1uJVTQhSDp-7_7NJsT6z8BZuqR41wSltXwpf5GCpU8PY/edit?usp=sharing)
+[More information can be found here.](https://docs.google.com/document/d/1uJVTQhSDp-7_7NJsT6z8BZuqR41wSltXwpf5GCpU8PY/edit?usp=sharing)
 
 ## Install instructions
 
