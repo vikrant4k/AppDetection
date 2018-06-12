@@ -17,6 +17,14 @@ public class AgreementActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (UserHandler.hasAgreedToTerms(this)) {
+            showMainActivity();
+        }
+    }
+
     public void handleUserDecline(View v) {
         UserHandler.setHasAgreedToTerms(false, this);
         Intent intent = new Intent(this, AgreementNotAcceptedActivity.class);
@@ -25,8 +33,10 @@ public class AgreementActivity extends AppCompatActivity {
 
     public void handleUserAccept(View v) {
         UserHandler.setHasAgreedToTerms(true, this);
-        Log.d("com.vik", "User has agreed to terms and conditions");
-        Log.d("The value is now", String.valueOf(UserHandler.hasAgreedToTerms(this)));
+        showMainActivity();
+    }
+
+    public void showMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
