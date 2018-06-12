@@ -1,7 +1,9 @@
 package vik.com.appdetection.activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
@@ -28,7 +30,9 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        connectToAWS();
+        if(isUserLoogedIn()==false)
+        {
+        connectToAWS();}
         setContentView(R.layout.activity_main);
         //final ScreenOnReciever screenOnReciever = new ScreenOnReciever();
 
@@ -38,10 +42,13 @@ public class MainActivity extends AppCompatActivity  {
             requestLocationPermission();
             //startForegroundService(new Intent(this, ReciverStartService.class));
             //startService(new Intent(getApplicationContext(), ReciverStartService.class));
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForegroundService(new Intent(getApplicationContext(), ReciverStartService.class));
-            } else {
-                startService(new Intent(getApplicationContext(), ReciverStartService.class));
+            if(ReciverStartService.isServiceRunning==false) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    startForegroundService(new Intent(getApplicationContext(), ReciverStartService.class));
+                } else {
+                    startService(new Intent(getApplicationContext(), ReciverStartService.class));
+                }
+                ReciverStartService.isServiceRunning=true;
             }
         }
         catch (Exception e)
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity  {
         AWSMobileClient.getInstance().initialize(this, new AWSStartupHandler() {
             @Override
             public void onComplete(AWSStartupResult awsStartupResult) {
+                setUserLoggedIn();
                 Log.d("com.vik", "AWSMobileClient is instantiated and you are connected to AWS!");
             }
         }).execute();
@@ -81,5 +89,24 @@ public class MainActivity extends AppCompatActivity  {
     public void showInformationActivity(View v) {
         Intent intent = new Intent(this, InformationActivity.class);
         startActivity(intent);
+    }
+
+    private void setUserLoggedIn()
+    {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("logged_in",1);
+        editor.commit();
+    }
+
+    private boolean isUserLoogedIn()
+    {
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        int loogedIn = sharedPref.getInt("logged_in",0);
+        if(loogedIn==1)
+        {
+            return true;
+        }
+        return false;
     }
 }

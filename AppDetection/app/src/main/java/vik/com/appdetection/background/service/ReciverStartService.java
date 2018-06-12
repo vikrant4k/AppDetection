@@ -30,6 +30,8 @@ import vik.com.appdetection.background.reciever.RestartReciever;
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 
 public class ReciverStartService extends Service {
+
+    public static boolean isServiceRunning=false;
     private ScreenOnReciever screenOnReciever;
     private RestartReciever restartReciever;
     private BluetoothReciever bluetoothReciever;
@@ -136,6 +138,7 @@ public class ReciverStartService extends Service {
 
     @Override
     public void onDestroy() {
+        isServiceRunning=false;
         Log.d("com.vik","Reciver Detsroy called");
         unregisterReceiver(screenOnReciever);
         super.onDestroy();
