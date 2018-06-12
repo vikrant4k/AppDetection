@@ -32,7 +32,7 @@
     </provider>
 
     <activity
-      android:name=".MainActivity"
+      android:name=".activity.MainActivity"
       android:noHistory="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -57,7 +57,7 @@
     <receiver android:name=".background.reciever.BluetoothReciever"/>
     <receiver android:name=".background.reciever.S3DumpReceiver"/>
 
-    <activity android:name=".AuthenticatorActivity">
+    <activity android:name=".activity.AuthenticatorActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
@@ -71,17 +71,17 @@
 
     <activity
       android:label="@string/title_activity_agreement"
-      android:name=".AgreementActivity"
+      android:name=".activity.AgreementActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity
       android:label="@string/title_activity_agreement_not_accepted"
-      android:name=".AgreementNotAcceptedActivity"
+      android:name=".activity.AgreementNotAcceptedActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
     <activity
       android:label="@string/title_activity_information"
-      android:name=".background.listener.InformationActivity"
+      android:name=".activity.InformationActivity"
       android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

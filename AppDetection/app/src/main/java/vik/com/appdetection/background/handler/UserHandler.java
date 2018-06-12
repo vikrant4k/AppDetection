@@ -1,19 +1,13 @@
-package vik.com.appdetection;
+package vik.com.appdetection.background.handler;
 
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-import com.amazonaws.mobile.auth.core.IdentityHandler;
 import com.amazonaws.mobile.auth.core.IdentityManager;
-import com.amazonaws.mobile.client.AWSMobileClient;
-import com.amazonaws.mobile.config.AWSConfiguration;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import vik.com.appdetection.utils.Constants;
 
-class UserHandler {
+public class UserHandler {
 
     public static String getCurrentUserId() {
         return IdentityManager.getDefaultIdentityManager().getCachedUserID();

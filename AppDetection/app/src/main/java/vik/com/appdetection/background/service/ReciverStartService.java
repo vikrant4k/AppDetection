@@ -55,10 +55,11 @@ public class ReciverStartService extends Service {
         //registerReceiver(restartReciever,restartReciever.getFilter());
         registerReceiver(bluetoothReciever,bluetoothReciever.getFilter());
         setUpAlarm(this);
-
-        creds = AWSMobileClient.getInstance().getConfiguration();
-        userPool = new CognitoUserPool(this, creds);
-        getUserDetails();
+        if(CredentialHandler.SIGNED_IN_USER==null) {
+            creds = AWSMobileClient.getInstance().getConfiguration();
+            userPool = new CognitoUserPool(this, creds);
+            getUserDetails();
+        }
         Log.d("com.vik", "Service onCreate: screenOnOffReceiver is registered.");
         Log.d("com.vik","On Create called");
 
@@ -80,13 +81,13 @@ public class ReciverStartService extends Service {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 23);
-            calendar.set(Calendar.MINUTE, 55);
+            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.MINUTE, 1);
 
 // With setInexactRepeating(), you have to use one of the AlarmManager interval
 // constants--in this case, AlarmManager.INTERVAL_DAY.
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, alarmIntent);
+                    4*AlarmManager.INTERVAL_HOUR, alarmIntent);
         }
         catch (Exception e)
         {

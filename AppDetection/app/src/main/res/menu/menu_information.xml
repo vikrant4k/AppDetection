@@ -1,7 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-  tools:context="vik.com.appdetection.background.listener.InformationActivity">
+  tools:context="vik.com.appdetection.activity.InformationActivity">
   <item
     android:id="@+id/action_settings"
     android:orderInCategory="100"

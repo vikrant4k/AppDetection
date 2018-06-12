@@ -1,4 +1,4 @@
-package vik.com.appdetection.background.listener;
+package vik.com.appdetection.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;

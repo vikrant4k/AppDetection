@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class CredentialHandler implements GetDetailsHandler {
 
-    public static String SIGNED_IN_USER;
+    public static String SIGNED_IN_USER=null;
     @Override
     public void onSuccess(CognitoUserDetails cognitoUserDetails) {
         Log.d("com.vik","In Success Credential");

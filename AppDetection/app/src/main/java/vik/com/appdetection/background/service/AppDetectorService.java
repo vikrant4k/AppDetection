@@ -16,6 +16,7 @@ import io.fabric.sdk.android.Fabric;
 import vik.com.appdetection.background.app.service.AppChangeService;
 import vik.com.appdetection.background.app.service.CreateDataService;
 import vik.com.appdetection.background.app.service.WriteDataService;
+import vik.com.appdetection.background.aws.DataDumper;
 import vik.com.appdetection.background.listener.LightSensor;
 import vik.com.appdetection.pojo.FeatureData;
 
@@ -29,6 +30,7 @@ public class AppDetectorService extends Service {
     private AppDetectorService appDetectorService=null;
     private SensorManager sensorManager;
     private Sensor sensor;
+    private LightSensor lightSensor;
 
 
     @Override
@@ -93,10 +95,12 @@ public class AppDetectorService extends Service {
         {
             appChecker.stop();
             stopTracking();
+            stopLightSensor();
             if(writeDataService!=null)
             {
                 writeDataService.writeDataToFile(createDataService.featureDataList,this);
                 //writeDataService.readDataFromFile(this);
+                //DataDumper.dumpData(this);
             }
         }
         super.onDestroy();
@@ -106,12 +110,13 @@ public class AppDetectorService extends Service {
     {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        sensorManager.registerListener(new LightSensor(), sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        lightSensor=new LightSensor();
+        sensorManager.registerListener(lightSensor, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     private void stopLightSensor()
     {
-
+        sensorManager.unregisterListener(lightSensor);
     }
 
     private void startTracking() {

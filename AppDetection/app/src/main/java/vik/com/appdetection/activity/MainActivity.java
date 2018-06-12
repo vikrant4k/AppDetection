@@ -1,13 +1,10 @@
-package vik.com.appdetection;
+package vik.com.appdetection.activity;
 
 import android.Manifest;
-import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,15 +14,9 @@ import android.view.View;
 import com.amazonaws.mobile.client.AWSMobileClient;
 import com.amazonaws.mobile.client.AWSStartupHandler;
 import com.amazonaws.mobile.client.AWSStartupResult;
-import com.crashlytics.android.Crashlytics;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.ActivityRecognition;
 
-import io.fabric.sdk.android.Fabric;
-import vik.com.appdetection.background.listener.InformationActivity;
-import vik.com.appdetection.background.reciever.ScreenOnReciever;
-import vik.com.appdetection.background.service.AppDetectorService;
+import vik.com.appdetection.background.aws.DataDumper;
+import vik.com.appdetection.R;
 import vik.com.appdetection.background.service.ReciverStartService;
 
 import static com.rvalerio.fgchecker.Utils.hasUsageStatsPermission;

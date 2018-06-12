@@ -3,14 +3,11 @@ package vik.com.appdetection.background.reciever;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.support.v4.content.FileProvider;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
-import java.io.File;
-
-import vik.com.appdetection.DataDumper;
-import vik.com.appdetection.background.app.service.WriteDataService;
+import vik.com.appdetection.background.aws.DataDumper;
 
 
 public class S3DumpReceiver extends BroadcastReceiver {
@@ -23,7 +20,13 @@ public class S3DumpReceiver extends BroadcastReceiver {
     public void dumpData(Context context)
     {
         try {
-            DataDumper.dumpData(context);
+            ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            if(cm!=null) {
+                NetworkInfo ni = cm.getActiveNetworkInfo();
+                if (ni != null && ni.isConnected()) {
+                    DataDumper.dumpData(context);
+                }
+            }
         }
         catch (Exception e)
         {
