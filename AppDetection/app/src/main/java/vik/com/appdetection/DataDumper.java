@@ -23,11 +23,15 @@ public class DataDumper {
     public static void dumpData(Context context) {
         Log.d("com.vik", "Dumping data..");
 
-        if (!Constants.enableUpload) {
+        if (!Constants.ENABLE_UPLOAD) {
             Log.d("com.vik", "Upload is disabled. Upload aborted. See Constants");
             return;
         }
 
+        if (!UserHandler.hasAgreedToTerms(context)) {
+            Log.d("com.vik", "The user has not agreed to the terms and conditions. Not uploading data");
+            return;
+        }
         uploadWithTransferUtility(context);
     }
 

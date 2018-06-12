@@ -23,6 +23,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.ActivityRecognition;
 
 import io.fabric.sdk.android.Fabric;
+import vik.com.appdetection.background.listener.InformationActivity;
 import vik.com.appdetection.background.reciever.ScreenOnReciever;
 import vik.com.appdetection.background.service.AppDetectorService;
 import vik.com.appdetection.background.service.ReciverStartService;
@@ -84,5 +85,10 @@ public class MainActivity extends AppCompatActivity  {
 
     public void dumpData(View view) {
         DataDumper.dumpData(getApplicationContext());
+    }
+
+    public void showInformationActivity(View v) {
+        Intent intent = new Intent(this, InformationActivity.class);
+        startActivity(intent);
     }
 }
