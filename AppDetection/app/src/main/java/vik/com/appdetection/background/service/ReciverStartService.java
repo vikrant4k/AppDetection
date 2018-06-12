@@ -81,13 +81,13 @@ public class ReciverStartService extends Service {
 
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(System.currentTimeMillis());
-            calendar.set(Calendar.HOUR_OF_DAY, 9);
+            calendar.set(Calendar.HOUR_OF_DAY, 10);
             calendar.set(Calendar.MINUTE, 1);
 
 // With setInexactRepeating(), you have to use one of the AlarmManager interval
 // constants--in this case, AlarmManager.INTERVAL_DAY.
             alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    4*AlarmManager.INTERVAL_HOUR, alarmIntent);
+                    12*AlarmManager.INTERVAL_HOUR, alarmIntent);
         }
         catch (Exception e)
         {
