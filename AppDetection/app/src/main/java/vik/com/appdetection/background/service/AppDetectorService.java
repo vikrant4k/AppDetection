@@ -50,13 +50,7 @@ public class AppDetectorService extends Service {
             writeDataService=new WriteDataService();
             startTracking();
             startLightSensor();
-            try {
-                writeDataService.readDataFromFile(this);
-            }
-            catch(Exception e)
-            {
-                Log.e("com.vik","error",e);
-            }
+
             //writeDataService.readDataFromFile(this);
             isCheckerOn=true;
             appChecker.whenAny(new AppChecker.Listener() {
@@ -108,15 +102,24 @@ public class AppDetectorService extends Service {
 
     private void startLightSensor()
     {
-        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        lightSensor=new LightSensor();
-        sensorManager.registerListener(lightSensor, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        try {
+            sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+            sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+            lightSensor = new LightSensor();
+            sensorManager.registerListener(lightSensor, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        catch (Exception e)
+        {
+            Log.e("com.vik","light sensor initialization error",e);
+        }
     }
 
     private void stopLightSensor()
     {
-        sensorManager.unregisterListener(lightSensor);
+        Log.d("com.vik","light sensor unregistered ");
+        if(sensorManager!=null) {
+            sensorManager.unregisterListener(lightSensor);
+        }
     }
 
     private void startTracking() {
