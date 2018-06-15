@@ -4,7 +4,7 @@ import datetime
 import requests
 import json
 
-from constants import radius, launcher_string, int2activity, cols, launcher_types
+import constants
 from api_key import places_API_key
 
 def read_all_csv_in_dir(path):
@@ -18,8 +18,8 @@ def read_all_csv_in_dir(path):
   return frame
 
 def discover_launcher(app_name):
-  if app_name in launcher_types:
-    return launcher_string
+  if app_name in constants.launcher_types:
+    return constants.launcher_string
   return app_name
 
 def get_time(timestamp):
@@ -38,7 +38,7 @@ def get_location_type(lat, long, cached):
       params = {
         'key' : places_API_key,
         'location' : "{},{}".format(lat, long),
-        'radius' : "{}.0".format(radius),
+        'radius' : "{}.0".format(constants.radius),
         })
 
   try:
@@ -53,15 +53,15 @@ def get_location_type(lat, long, cached):
 def main():
   # df = read_all_csv_in_dir("./data")
   df = pd.read_csv("./data/12-Jun-2018.csv")
-  print("Total number of features:", len(cols))
+  print("Total number of features:", len(constants.cols))
   print("Total number of rows", df.shape[0])
-  df.columns = cols
+  df.columns = constants.cols
 
   cached_loc_types = {}
 
   df['timestamp'] = df['timestamp'].apply(get_time)
 
-  df['activity_type'] = df['activity_type'].apply(lambda n: int2activity[n])
+  df['activity_type'] = df['activity_type'].apply(lambda n: constants.int2activity[n])
 
   df['brightness_level'] = df['brightness_level'].apply(lambda x: x / 40000)
 
