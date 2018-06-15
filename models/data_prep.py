@@ -3,9 +3,12 @@ import pandas as pd
 import datetime
 import requests
 import json
+from collections import Counter
 
 import constants
 from api_key import places_API_key
+
+make_request = True
 
 def read_all_csv_in_dir(path):
   all_files = glob.glob(path + "/*.csv")
@@ -33,6 +36,9 @@ def get_location_type(lat, long, cached):
   if (lat, long) in cached:
     return cached[(lat, long)]
 
+  if not make_request:
+    return "NO REQUEST"
+
   print("Making request")
   req = requests.get("https://maps.googleapis.com/maps/api/place/nearbysearch/json?parameters",\
       params = {
@@ -49,6 +55,19 @@ def get_location_type(lat, long, cached):
   cached[(lat, long)] = loc_type
 
   return loc_type
+
+def apply_most_common_loc_type(df):
+  counter = Counter()
+  for i, row in df.iterrows():
+    lat, long = row.lat, row.long
+    counter[(lat, long)] += 1
+
+  most_freq_loc = counter.most_common(1)[0][0]
+  print(most_freq_loc)
+
+  # For now we assume that the most frequent location is home
+  df['location_type'] = df.apply(lambda row: \
+      "home" if (row.lat, row.long) == most_freq_loc else row.location_type, axis=1)
 
 def main():
   # df = read_all_csv_in_dir("./data")
@@ -72,6 +91,8 @@ def main():
 
   # TODO: Get a better estimate of what implies a user is outside
   df['is_outside'] = df['brightness_level'].apply(lambda level: True if level < 0.5 else False)
+
+  apply_most_common_loc_type(df)
 
   df['location_type'] = df.apply(lambda row: \
       'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
