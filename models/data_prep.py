@@ -7,6 +7,7 @@ from collections import Counter
 
 import constants
 from api_key import places_API_key
+from lat_lon_handler import get_lat_lon_distance
 
 make_request = True
 
@@ -28,6 +29,19 @@ def discover_launcher(app_name):
 def get_time(timestamp):
   return datetime.datetime.fromtimestamp(timestamp/1000).strftime('%Y-%m-%d %H:%M:%S')
 
+def get_closest_loc_type(res_list, lat1, lon1):
+  closest_idx = 0
+  closest_dist = 10000
+  for i, res in enumerate(res_list):
+    loc = res['geometry']['location']
+    lat2, lon2 = loc['lat'], loc['lng']
+    dist = get_lat_lon_distance(lat1, lon1, lat2, lon2)
+    if dist < closest_dist:
+      closest_dist = dist
+      closest_idx = i
+
+  return res_list[closest_idx]['types'][0]
+
 def get_location_type(lat, long, cached):
   if lat == 0 and long == 0:
     print("Lat long were both 0")
@@ -48,7 +62,7 @@ def get_location_type(lat, long, cached):
         })
 
   try:
-    loc_type = req.json()['results'][0]['types'][0]
+    loc_type = get_closest_loc_type(req.json()['results'], lat, long)
   except IndexError:
     loc_type = "NA"
 
