@@ -1,3 +1,4 @@
+radius = 50
 launcher_string = "launcher instance"
 
 int2activity = {
@@ -17,10 +18,10 @@ cols = [
     "activity_type",
     "lat",
     "long",
-    "bluetooth",
-    "audio",
-    "wifi",
-    "brightness",
+    "bluetooth_connected",
+    "audio_connected",
+    "wifi_connected",
+    "brightness_level",
     "is_weekday",
     "is_charging"
   ]
