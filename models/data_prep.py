@@ -8,6 +8,7 @@ from collections import Counter
 import constants
 from api_key import places_API_key
 from lat_lon_handler import get_lat_lon_distance
+from user_clustering import add_cluster_type_column
 
 make_request = True
 
@@ -107,6 +108,7 @@ def main():
   df['is_outside'] = df['brightness_level'].apply(lambda level: True if level < 0.5 else False)
 
   apply_most_common_loc_type(df)
+  add_cluster_type_column(df)
 
   df['location_type'] = df.apply(lambda row: \
       'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
