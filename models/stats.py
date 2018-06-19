@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 from collections import Counter, defaultdict
 from datetime import datetime
 
+draw_plot = True
+
 def print_stats(df):
   print("\n########## Printing metadata ##########")
   total_sessions = df['session_nr'].max()
@@ -30,7 +32,17 @@ def print_stats(df):
 
   most_used_app = top_10_apps.keys()[1]
   print(most_used_app)
-  plot_app_time_usage(app_times[most_used_app], most_used_app)
+
+  # if draw_plot:
+  #   plot_time_usage(app_times[most_used_app], most_used_app)
+
+  app_timings = Counter()
+  for i, row in df.iterrows():
+    hour = datetime.strptime(row.timestamp, constants.timestamp_format).hour
+    app_timings[hour] += 1
+
+  if draw_plot:
+    plot_time_usage(app_timings, "All apps")
 
 def get_app_times(df):
   """
@@ -44,9 +56,12 @@ def get_app_times(df):
 
   return app_times
 
-def plot_app_time_usage(counter, app_name):
-  labels = [str(x) for x in range(24)]
-  values = [counter[i] for i in range(24)]
+def plot_time_usage(counter, app_name):
+  start_hour = 7
+  rang = range(start_hour, start_hour + 24)
+
+  labels = [str(x % 24).zfill(2) for x in rang]
+  values = [counter[x % 24] for x in rang]
 
   indexes = np.arange(len(labels))
   width = 1
