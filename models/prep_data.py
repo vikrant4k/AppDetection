@@ -108,6 +108,7 @@ def main():
   print("Total number of features:", len(constants.cols))
   print("Total number of rows", df.shape[0])
   df.columns = constants.cols
+  df = df.drop_duplicates()
   df = df.sort_values(by=['timestamp']) # Make sure the data is chronological
 
   cached_loc_types = {}
@@ -133,6 +134,6 @@ def main():
   df['location_type'] = df.apply(lambda row: \
       'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
 
-  df.to_csv("./data/prepared_data/full_concat_data.csv", index=False)
+  df.to_csv("./data/prepared_data/full_concat_data_2.csv", index=False)
 
 main()
