@@ -1,5 +1,7 @@
-radius = 50
+radius = 50 # meters
+time_cluster_interval = 20 # minutes
 launcher_string = "launcher instance"
+timestamp_format = '%Y-%m-%d %H:%M:%S'
 
 int2activity = {
     0 : "IN_VEHICLE",

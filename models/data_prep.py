@@ -1,6 +1,6 @@
 import glob
 import pandas as pd
-import datetime
+from datetime import datetime
 import requests
 import json
 from collections import Counter
@@ -28,7 +28,7 @@ def discover_launcher(app_name):
   return app_name
 
 def get_time(timestamp):
-  return datetime.datetime.fromtimestamp(timestamp/1000).strftime('%Y-%m-%d %H:%M:%S')
+  return datetime.fromtimestamp(timestamp/1000).strftime(constants.timestamp_format)
 
 def get_closest_loc_type(res_list, lat1, lon1):
   closest_idx = 0
@@ -84,12 +84,31 @@ def apply_most_common_loc_type(df):
   df['location_type'] = df.apply(lambda row: \
       "home" if (row.lat, row.long) == most_freq_loc else row.location_type, axis=1)
 
+def apply_time_cluster(df):
+  times = {}
+  timeslot = 0
+  prev_timestamp = datetime.strptime(df.iloc[0].timestamp, constants.timestamp_format)
+
+  for i, row in df.iterrows():
+    timestamp = datetime.strptime(row.timestamp, constants.timestamp_format)
+    time_diff = timestamp - prev_timestamp
+    time_diff_mins = int(round(time_diff.total_seconds() / 60))
+
+    if time_diff_mins > constants.time_cluster_interval:
+      timeslot += 1
+
+    times[row.timestamp] = timeslot
+    prev_timestamp = timestamp
+
+  df['session_nr'] = df['timestamp'].apply(lambda stamp: times[stamp])
+
 def main():
   # df = read_all_csv_in_dir("./data")
   df = pd.read_csv("./data/12-Jun-2018.csv")
   print("Total number of features:", len(constants.cols))
   print("Total number of rows", df.shape[0])
   df.columns = constants.cols
+  df = df.sort_values(by=['timestamp']) # Make sure the data is chronological
 
   cached_loc_types = {}
 
@@ -108,6 +127,7 @@ def main():
   df['is_outside'] = df['brightness_level'].apply(lambda level: True if level < 0.5 else False)
 
   apply_most_common_loc_type(df)
+  apply_time_cluster(df)
   add_cluster_type_column(df)
 
   df['location_type'] = df.apply(lambda row: \

@@ -1,0 +1,8 @@
+# Project specific
+AppDetection/app/release/
+models/api_key.py
+
+# Caches
+AppDetection/.idea/caches/build_file_checksums.ser
+*.pyc
+__pycache__/

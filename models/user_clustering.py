@@ -56,8 +56,3 @@ def find_simple_clusters(df):
 def add_cluster_type_column(df):
   clusters = find_simple_clusters(df)
   df['loc_cluster_type'] = df.apply(lambda row: clusters[(row.lat, row.long)], axis=1)
-
-df = pd.read_csv('./data/concat_data.csv')
-add_cluster_type_column(df)
-
-df['cluster_type']
