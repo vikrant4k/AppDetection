@@ -10,16 +10,17 @@ from api_key import places_API_key
 from lat_lon_handler import get_lat_lon_distance
 from user_clustering import add_cluster_type_column
 
-make_request = True
+make_request = False
 
 def read_all_csv_in_dir(path):
   all_files = glob.glob(path + "/*.csv")
   frame = pd.DataFrame()
-  list_ = []
+  df_list = []
   for file in all_files:
     df = pd.read_csv(file, index_col=None, header=0)
-    list_.append(df)
-  frame = pd.concat(list_)
+    df_list.append(df)
+    df.columns = constants.cols
+  frame = pd.concat(df_list)
   return frame
 
 def discover_launcher(app_name):
@@ -103,8 +104,7 @@ def apply_time_cluster(df):
   df['session_nr'] = df['timestamp'].apply(lambda stamp: times[stamp])
 
 def main():
-  # df = read_all_csv_in_dir("./data")
-  df = pd.read_csv("./data/12-Jun-2018.csv")
+  df = read_all_csv_in_dir("./data")
   print("Total number of features:", len(constants.cols))
   print("Total number of rows", df.shape[0])
   df.columns = constants.cols
@@ -133,6 +133,6 @@ def main():
   df['location_type'] = df.apply(lambda row: \
       'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
 
-  df.to_csv("./data/concat_data.csv", index=False)
+  df.to_csv("./data/prepared_data/full_concat_data.csv", index=False)
 
 main()
