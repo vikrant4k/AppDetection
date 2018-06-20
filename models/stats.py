@@ -7,6 +7,7 @@ from collections import Counter, defaultdict
 from datetime import datetime
 
 draw_plot = True
+num_timeslots = 4
 
 def print_stats(df):
   print("\n########## Printing metadata ##########")
@@ -24,14 +25,8 @@ def print_stats(df):
   print("Activity type frequency:")
   print(activity_freq, "\n")
 
-  app_times = get_app_times(df)
-
-  for app_name in top_10_apps.keys()[1:]: # Skip launcher in top 10
-    most_common_hours_for_app = app_times[app_name].most_common(5)
-    print(app_name, most_common_hours_for_app)
-
   most_used_app = top_10_apps.keys()[1]
-  print(most_used_app)
+  app_times = get_app_times(df)
 
   # if draw_plot:
   #   plot_time_usage(app_times[most_used_app], most_used_app)
@@ -43,6 +38,11 @@ def print_stats(df):
 
   if draw_plot:
     plot_time_usage(app_timings, "All apps")
+
+  activeness = get_app_activeness(df, num_timeslots)
+
+  if draw_plot:
+    plot_activeness(activeness)
 
 def get_app_times(df):
   """
@@ -56,6 +56,53 @@ def get_app_times(df):
 
   return app_times
 
+def get_app_activeness(df, num_timeslots):
+  activeness = {}
+
+  S = num_timeslots # Number of days
+  F_ai = defaultdict(Counter)# [app][slot]
+  F_i = Counter()
+  timeslot = 1
+
+  prev_day = datetime.strptime(df.iloc[0].timestamp, constants.timestamp_format).day
+  for i, row in df.iterrows():
+    curr_day = datetime.strptime(row.timestamp, constants.timestamp_format).day
+    if curr_day != prev_day:
+      timeslot += 1
+    prev_day = curr_day
+
+    if row.app_name != constants.launcher_string: # We don't count the launcher string
+      F_ai[row.app_name][timeslot] += 1
+      F_i[timeslot] += 1
+
+  app_names = df['app_name'].unique()
+  app_names = np.delete(app_names, np.where(app_names == constants.launcher_string)) # We ignore the launcher
+
+  for app_name in app_names:
+    activeness[app_name] = sum([F_ai[app_name][i]/F_i[i] for i in range(1, S+1)]) / S
+
+  return activeness
+
+def plot_histogram(labels, values, title):
+  indexes = np.arange(len(labels))
+  width = 1
+
+  plt.bar(indexes, values, width)
+  plt.xticks(indexes + width * 0.5, labels)
+  plt.title(title)
+  plt.show()
+
+def plot_activeness(activeness):
+  sorted_values = sorted(activeness.items(), key=lambda tup: tup[1], reverse=True)
+  print("\nApp activeness\n")
+  for key, val in sorted_values:
+    print(key, val)
+
+  labels = [i for i in range(len(sorted_values))]
+  values = [t[1] for t in sorted_values]
+
+  plot_histogram(labels, values, "App activeness")
+
 def plot_time_usage(counter, app_name):
   start_hour = 7
   rang = range(start_hour, start_hour + 24)
@@ -63,13 +110,7 @@ def plot_time_usage(counter, app_name):
   labels = [str(x % 24).zfill(2) for x in rang]
   values = [counter[x % 24] for x in rang]
 
-  indexes = np.arange(len(labels))
-  width = 1
-
-  plt.bar(indexes, values, width)
-  plt.xticks(indexes + width * 0.5, labels)
-  plt.title(app_name + " usage over time")
-  plt.show()
+  plot_histogram(labels, values, app_name + " usage over time")
 
 df = pd.read_csv("./data/prepared_data/full_concat_data_2.csv")
 print_stats(df)
