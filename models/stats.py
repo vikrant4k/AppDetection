@@ -97,6 +97,18 @@ def plot_type_pie_chart(type_counts):
   plt.axis('equal')
   plt.show()
 
+def map_type_to_activeness(activeness):
+  type_activeness = defaultdict(float)
+  counts = Counter()
+
+  for app, acivity_level in activeness.items():
+    type_activeness[constants.app_type_map[app]] += acivity_level
+    counts[constants.app_type_map[app]] += 1
+
+  average_type_activeness = {t : type_activeness[t] / counts[t] for t in counts.keys()}
+
+  return average_type_activeness
+
 def print_stats(df):
   print("\n########## Printing metadata ##########")
   total_sessions = df['session_nr'].max()
@@ -116,9 +128,6 @@ def print_stats(df):
   most_used_app = top_10_apps.keys()[1]
   app_times = get_app_times(df)
 
-  # if draw_plot:
-  #   plot_time_usage(app_times[most_used_app], most_used_app)
-
   app_timings = Counter()
   for i, row in df.iterrows():
     hour = datetime.strptime(row.timestamp, constants.timestamp_format).hour
@@ -134,6 +143,9 @@ def print_stats(df):
 
   type_counts = get_app_type_usage(df)
   plot_type_pie_chart(type_counts)
+
+  type_activeness = map_type_to_activeness(activeness)
+  plot_type_pie_chart(type_activeness)
 
 def main():
   df = pd.read_csv("./data/prepared_data/full_concat_data_3.csv")
