@@ -7,42 +7,7 @@ from collections import Counter, defaultdict
 from datetime import datetime
 
 draw_plot = True
-num_timeslots = 4
-
-def print_stats(df):
-  print("\n########## Printing metadata ##########")
-  total_sessions = df['session_nr'].max()
-  print("Total number of sessions:", total_sessions, "\n")
-
-  top_10_apps = df['app_name'].value_counts()[:10]
-  print("Top 10 used apps:")
-  print(top_10_apps, "\n")
-
-  different_locations = df['loc_cluster_type'].max()
-  print("Number of different locations:", different_locations, "\n")
-
-  activity_freq = df['activity_type'].value_counts()
-  print("Activity type frequency:")
-  print(activity_freq, "\n")
-
-  most_used_app = top_10_apps.keys()[1]
-  app_times = get_app_times(df)
-
-  # if draw_plot:
-  #   plot_time_usage(app_times[most_used_app], most_used_app)
-
-  app_timings = Counter()
-  for i, row in df.iterrows():
-    hour = datetime.strptime(row.timestamp, constants.timestamp_format).hour
-    app_timings[hour] += 1
-
-  if draw_plot:
-    plot_time_usage(app_timings, "All apps")
-
-  activeness = get_app_activeness(df, num_timeslots)
-
-  if draw_plot:
-    plot_activeness(activeness)
+num_timeslots = 10
 
 def get_app_times(df):
   """
@@ -112,5 +77,66 @@ def plot_time_usage(counter, app_name):
 
   plot_histogram(labels, values, app_name + " usage over time")
 
-df = pd.read_csv("./data/prepared_data/full_concat_data_2.csv")
-print_stats(df)
+def get_app_type_usage(df):
+  type_counts = Counter()
+
+  for i, row in df.iterrows():
+    if row.app_name != constants.launcher_string:
+      t = constants.app_type_map[row.app_name]
+      type_counts[t] += 1
+
+  return type_counts
+
+def plot_type_pie_chart(type_counts):
+  items = sorted(type_counts.items(), key=lambda t: t[1], reverse=True)
+
+  labels = [t[0] for t in items]
+  sizes = [t[1] for t in items]
+
+  plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+  plt.axis('equal')
+  plt.show()
+
+def print_stats(df):
+  print("\n########## Printing metadata ##########")
+  total_sessions = df['session_nr'].max()
+  print("Total number of sessions:", total_sessions, "\n")
+
+  top_10_apps = df['app_name'].value_counts()[:10]
+  print("Top 10 used apps:")
+  print(top_10_apps, "\n")
+
+  different_locations = df['loc_cluster_type'].max()
+  print("Number of different locations:", different_locations, "\n")
+
+  activity_freq = df['activity_type'].value_counts()
+  print("Activity type frequency:")
+  print(activity_freq, "\n")
+
+  most_used_app = top_10_apps.keys()[1]
+  app_times = get_app_times(df)
+
+  # if draw_plot:
+  #   plot_time_usage(app_times[most_used_app], most_used_app)
+
+  app_timings = Counter()
+  for i, row in df.iterrows():
+    hour = datetime.strptime(row.timestamp, constants.timestamp_format).hour
+    app_timings[hour] += 1
+
+  if draw_plot:
+    plot_time_usage(app_timings, "All apps")
+
+  activeness = get_app_activeness(df, num_timeslots)
+
+  if draw_plot:
+    plot_activeness(activeness)
+
+  type_counts = get_app_type_usage(df)
+  plot_type_pie_chart(type_counts)
+
+def main():
+  df = pd.read_csv("./data/prepared_data/full_concat_data_3.csv")
+  print_stats(df)
+
+main()

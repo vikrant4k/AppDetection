@@ -121,19 +121,19 @@ def main():
 
   df['app_name'] = df['app_name'].apply(discover_launcher)
 
-  df['location_type'] = df.apply(lambda row: \
-      get_location_type(row['lat'], row['long'], cached_loc_types), axis=1)
+  # df['location_type'] = df.apply(lambda row: \
+  #    get_location_type(row['lat'], row['long'], cached_loc_types), axis=1)
 
   # TODO: Get a better estimate of what implies a user is outside
   df['is_outside'] = df['brightness_level'].apply(lambda level: True if level < 0.5 else False)
 
-  apply_most_common_loc_type(df)
+  # apply_most_common_loc_type(df)
   apply_time_cluster(df)
   add_cluster_type_column(df)
 
-  df['location_type'] = df.apply(lambda row: \
-      'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
+  # df['location_type'] = df.apply(lambda row: \
+  #     'moving' if row['activity_type'] != "STILL" else row['location_type'], axis=1)
 
-  df.to_csv("./data/prepared_data/full_concat_data_2.csv", index=False)
+  df.to_csv("./data/prepared_data/full_concat_data_3.csv", index=False)
 
 main()
