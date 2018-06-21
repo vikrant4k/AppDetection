@@ -2,11 +2,14 @@ import pandas as pd
 import constants
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 from collections import Counter, defaultdict
 from datetime import datetime
 
-draw_plot = True
+from dbscan import dbscan_location_cluster
+
+draw_plot = False
 num_timeslots = 10
 
 def get_app_times(df):
@@ -109,6 +112,53 @@ def map_type_to_activeness(activeness):
 
   return average_type_activeness
 
+def plot_lat_lon_to_type(df, loc2idx, centermost_points):
+  ll_type_counter = defaultdict(Counter)
+
+  for i, row in df.iterrows():
+    if row.app_name != constants.launcher_string and row.lat != 0 and row.long != 0:
+      centermost_point = centermost_points[loc2idx[(row.lat, row.long)]]
+      app_type = constants.app_type_map[row.app_name]
+      ll_type_counter[centermost_point][app_type] += 1
+
+  x = []
+  y = []
+  colors = []
+  areas = []
+
+  for centermost_point, counter in ll_type_counter.items():
+    total_counts = sum(counter.values())
+    for app_type, count in counter.most_common():
+      x.append(centermost_point[0])
+      y.append(centermost_point[1])
+      colors.append(constants.type2color[app_type])
+      areas.append(15000 * (count/total_counts)**2)
+
+  legend_elements = [Line2D([0], [0], marker='o', color=color, label=app_type)\
+      for app_type, color in constants.type2color.items()]
+
+  # Create the figure
+  fig, ax = plt.subplots()
+  ax.legend(handles=legend_elements)
+  ax.scatter(x, y, s=areas, c=colors, alpha=0.5)
+  plt.show()
+
+def plot_location_cluster(df, loc2idx):
+  color_list = constants.color_list
+
+  lats = []
+  lons = []
+  colors = []
+
+  for i, row in df.iterrows():
+    if row.app_name != constants.launcher_string and row.lat != 0 and row.long != 0:
+      lats.append(row.lat)
+      lons.append(row.long)
+      colors.append(color_list[loc2idx[(row.lat, row.long)]])
+
+  plt.scatter(lats, lons, c=colors)
+  plt.show()
+
 def print_stats(df):
   print("\n########## Printing metadata ##########")
   total_sessions = df['session_nr'].max()
@@ -142,10 +192,17 @@ def print_stats(df):
     plot_activeness(activeness)
 
   type_counts = get_app_type_usage(df)
-  plot_type_pie_chart(type_counts)
+  if draw_plot:
+    plot_type_pie_chart(type_counts)
 
   type_activeness = map_type_to_activeness(activeness)
-  plot_type_pie_chart(type_activeness)
+  if draw_plot:
+    plot_type_pie_chart(type_activeness)
+
+  loc2idx, centermost_points = dbscan_location_cluster(df)
+  plot_location_cluster(df, loc2idx)
+
+  plot_lat_lon_to_type(df, loc2idx, centermost_points)
 
 def main():
   df = pd.read_csv("./data/prepared_data/full_concat_data_3.csv")

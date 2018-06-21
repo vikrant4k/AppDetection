@@ -98,6 +98,18 @@ launcher_types = set([
   #     "entertainment",
   #     ]
 
+type2color = {
+    "other" : "gray",
+    "social" : "red",
+    "productivity" : "gold",
+    "utility" : "chartreuse",
+    "music" : "lightseagreen",
+    "phone" : "royalblue",
+    "fitness" : "darkorchid",
+    "browser" : "m",
+    "entertainment" : "yellow",
+    }
+
 app_type_map = {
     "Messenger" : "social",
     "reddit is fun golden platinum" : "entertainment",
@@ -141,3 +153,20 @@ app_type_map = {
     "Package installer" : "other",
     "Google Opinion Rewards" : "other",
     }
+
+def get_color_list():
+  import random
+  from matplotlib import colors as mcolors
+
+  colors = dict(mcolors.BASE_COLORS, **mcolors.CSS4_COLORS)
+  names = [color_name for color_name, _ in colors.items()]
+  random.seed(5)
+  random.shuffle(names)
+  return names
+
+  # Sort colors by hue, saturation, value and name.
+  by_hsv = sorted((tuple(mcolors.rgb_to_hsv(mcolors.to_rgba(color)[:3])), name)
+                  for name, color in colors.items())
+  return [name for hsv, name in by_hsv]
+
+color_list = get_color_list()
