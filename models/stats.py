@@ -9,8 +9,10 @@ from datetime import datetime
 
 from dbscan import dbscan_location_cluster
 
-draw_plot = False
-num_timeslots = 10
+draw_plot = True
+num_timeslots = 8
+user = constants.user
+cluster_km_distance = 0.5
 
 def get_app_times(df):
   """
@@ -51,12 +53,14 @@ def get_app_activeness(df, num_timeslots):
 
   return activeness
 
-def plot_histogram(labels, values, title):
+def plot_histogram(labels, values, title, xlabel, ylabel):
   indexes = np.arange(len(labels))
   width = 1
 
   plt.bar(indexes, values, width)
   plt.xticks(indexes + width * 0.5, labels)
+  plt.xlabel(xlabel)
+  plt.ylabel(ylabel)
   plt.title(title)
   plt.show()
 
@@ -69,7 +73,8 @@ def plot_activeness(activeness):
   labels = [i for i in range(len(sorted_values))]
   values = [t[1] for t in sorted_values]
 
-  plot_histogram(labels, values, "App activeness")
+  plot_histogram(labels, values, \
+      "App activeness", "App activeness ranking", "Activeness percentage")
 
 def plot_time_usage(counter, app_name):
   start_hour = 7
@@ -78,7 +83,7 @@ def plot_time_usage(counter, app_name):
   labels = [str(x % 24).zfill(2) for x in rang]
   values = [counter[x % 24] for x in rang]
 
-  plot_histogram(labels, values, app_name + " usage over time")
+  plot_histogram(labels, values, app_name + " usage over time", "Hour of day", "Number of use")
 
 def get_app_type_usage(df):
   type_counts = Counter()
@@ -90,13 +95,14 @@ def get_app_type_usage(df):
 
   return type_counts
 
-def plot_type_pie_chart(type_counts):
+def plot_type_pie_chart(type_counts, title):
   items = sorted(type_counts.items(), key=lambda t: t[1], reverse=True)
 
   labels = [t[0] for t in items]
   sizes = [t[1] for t in items]
 
   plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140)
+  plt.title(title)
   plt.axis('equal')
   plt.show()
 
@@ -141,9 +147,11 @@ def plot_lat_lon_to_type(df, loc2idx, centermost_points):
   fig, ax = plt.subplots()
   ax.legend(handles=legend_elements)
   ax.scatter(x, y, s=areas, c=colors, alpha=0.5)
+  ax.set_xlabel("Latitude")
+  ax.set_ylabel("Longitude")
   plt.show()
 
-def plot_location_cluster(df, loc2idx):
+def plot_location_cluster(df, loc2idx, title):
   color_list = constants.color_list
 
   lats = []
@@ -157,6 +165,9 @@ def plot_location_cluster(df, loc2idx):
       colors.append(color_list[loc2idx[(row.lat, row.long)]])
 
   plt.scatter(lats, lons, c=colors)
+  plt.title(title)
+  plt.xlabel("Latitude")
+  plt.ylabel("Longitude")
   plt.show()
 
 def print_stats(df):
@@ -167,9 +178,6 @@ def print_stats(df):
   top_10_apps = df['app_name'].value_counts()[:10]
   print("Top 10 used apps:")
   print(top_10_apps, "\n")
-
-  different_locations = df['loc_cluster_type'].max()
-  print("Number of different locations:", different_locations, "\n")
 
   activity_freq = df['activity_type'].value_counts()
   print("Activity type frequency:")
@@ -192,20 +200,18 @@ def print_stats(df):
     plot_activeness(activeness)
 
   type_counts = get_app_type_usage(df)
+
   if draw_plot:
-    plot_type_pie_chart(type_counts)
+    plot_type_pie_chart(type_counts, "Percentage of usage per app type")
 
-  type_activeness = map_type_to_activeness(activeness)
+  loc2idx, centermost_points = dbscan_location_cluster(df, cluster_km_distance)
+
   if draw_plot:
-    plot_type_pie_chart(type_activeness)
-
-  loc2idx, centermost_points = dbscan_location_cluster(df)
-  plot_location_cluster(df, loc2idx)
-
-  plot_lat_lon_to_type(df, loc2idx, centermost_points)
+    plot_location_cluster(df, loc2idx, "Location clusters")
+    plot_lat_lon_to_type(df, loc2idx, centermost_points)
 
 def main():
-  df = pd.read_csv("./data/prepared_data/full_concat_data_3.csv")
+  df = pd.read_csv("./data/{}/prepared_data/full_data.csv".format(user))
   print_stats(df)
 
 main()

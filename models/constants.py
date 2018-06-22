@@ -2,6 +2,7 @@ radius = 50 # meters
 time_cluster_interval = 20 # minutes
 launcher_string = "launcher instance"
 timestamp_format = '%Y-%m-%d %H:%M:%S'
+user = "user_3"
 
 int2activity = {
     0 : "IN_VEHICLE",
@@ -83,7 +84,9 @@ launcher_types = set([
     "WP Launcher",
     "Z Launcher",
     "Zeam Launcher",
-    "TSF Launcher 3D"
+    "TSF Launcher 3D",
+    "Samsung Experience Home",
+    "Huawei startside",
     ])
 
   # app_types = [
@@ -111,6 +114,7 @@ type2color = {
     }
 
 app_type_map = {
+    # User 1
     "Messenger" : "social",
     "reddit is fun golden platinum" : "entertainment",
     "nsuns 5/3/1" : "fitness",
@@ -152,6 +156,85 @@ app_type_map = {
     "Calculator" : "productivity",
     "Package installer" : "other",
     "Google Opinion Rewards" : "other",
+    # User 2
+    "Contacts" : "social",
+    "Instagram" : "social",
+    "Samsung Music" : "music",
+    "Flipkart" : "entertainment",
+    "9292" : "other",
+    "Settings" : "other",
+    "Banking" : "productivity",
+    "Twitter" : "social",
+    "Jabong" : "entertainment", #?
+    "ClearScanner" : "productivity",
+    "Splitwise" : "productivity",
+    "LinkedIn" : "social",
+    "Gallery" : "entertainment",
+    "Samsung Internet" : "browser",
+    "Samsung Health" : "fitness",
+    "Bixby Home" : "other", #? Some kind of google home
+    "hike" : "social",
+    "MTP application" : "utility",
+    "Software update" : "other",
+    "MyLebara" : "phone",
+    "Weather" : "productivity",
+    "Messages" : "social",
+    "Authy" : "utility",
+    "Bose Connect" : "music",
+    "CamScanner" : "productivity",
+    "SoundAlive" : "music",
+    "My Files" : "utility",
+    "CaptivePortalLogin" : "other",
+    "AppDetection" : "other",
+    "Airbnb" : "other",
+    "Calendar" : "productivity",
+    "Mobile networks" : "other",
+    "Google News" : "entertainment",
+    "Samsung capture" : "utility",
+    "Reisplanner" : "productivity",
+    "Video Player" : "entertainment",
+    "Device maintenance" : "other",
+    "Finder" : "utility",
+    "Music Center" : "music",
+    "MyHealth" : "fitness",
+    "Photo Editor" : "entertainment",
+    "Reminder" : "productivity",
+    "Samsung Keyboard" : "utility",
+    "Prime Video" : "entertainment",
+    "Samsung ApexService" : "other",
+    # User 3
+    "Snapchat" : "social",
+    "Chrome" : "utility",
+    "Spotify" : "music",
+    "Messenger" : "social",
+    "Klokke" : "utility",
+    "Slack" : "social",
+    "Gmail" : "productivity",
+    "Innstillinger" : "other",
+    "reddit is fun golden platinum" : "entertainment",
+    "Talltastatur" : "utility",
+    "LinkedIn" : "social",
+    "Norsk Tipping" : "entertainment",
+    "Blockfolio" : "other",
+    "Meldinger" : "phone",
+    "YouTube" : "entertainment",
+    "Mobilbank" : "productivity",
+    "Kontakter" : "phone",
+    "Nordnet" : "productivity",
+    "Telefon-behandling" : "other",
+    "Systemgrensesnitt" : "other",
+    "Eliteserien" : "entertainment",
+    "Wolt" : "other",
+    "NRK Radio" : "entertainment",
+    "Maps" : "utility",
+    "Bartebuss" : "productivity",
+    "TV 2 Sumo" : "entertainment",
+    "Disk" : "productivity",
+    "FIFA" : "entertainment",
+    "Vipps" : "productivity",
+    "Firefox" : "browser",
+    "Pakkeinstallasjon" : "other",
+    "Bevegelser" : "other",
     }
 
 def get_color_list():

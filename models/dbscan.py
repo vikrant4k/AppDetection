@@ -9,7 +9,7 @@ def get_centermost_point(cluster):
   centermost_point = min(cluster, key=lambda point: great_circle(point, centroid).m)
   return tuple(centermost_point)
 
-def dbscan_location_cluster(df):
+def dbscan_location_cluster(df, kms):
   # Only consider locations where the user is still and remove 0,0 lat lon
   still_df = df.loc[df['activity_type'] == 'STILL']
   still_df = df.loc[df['lat'] != 0.0]
@@ -18,7 +18,6 @@ def dbscan_location_cluster(df):
   coords = still_df.as_matrix(columns=['lat', 'long'])
 
   kms_per_radian = 6371.0088
-  kms = 1 # 1000m
   epsilon = kms / kms_per_radian
   db = DBSCAN(eps=epsilon, min_samples=1, algorithm='ball_tree', \
       metric='haversine').fit(np.radians(coords))
